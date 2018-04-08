@@ -7,13 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1181A8A7DB78715D5BFDE3A0 /* Pods_mrivoiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9328A33958F028E88842A7A8 /* Pods_mrivoiceTests.framework */; };
+		3A7AC1020DF16DDEF279C336 /* Pods_mrivoice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08AEBA1E4D41B5F0E784003B /* Pods_mrivoice.framework */; };
+		511167ADDFA7340CBD5287A0 /* Pods_mrivoiceUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6F3528569FA4710746660A0 /* Pods_mrivoiceUITests.framework */; };
+		A3347F31206CE8680083DD70 /* MyStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3347F30206CE8680083DD70 /* MyStyle.swift */; };
+		A3347F33206DBB6F0083DD70 /* AsyncUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3347F32206DBB6F0083DD70 /* AsyncUtil.swift */; };
+		A35360C92064CE8600905EA2 /* voiceRecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35360C82064CE8600905EA2 /* voiceRecordingViewController.swift */; };
+		A35360CB2064D3CB00905EA2 /* makeIconImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35360CA2064D3CB00905EA2 /* makeIconImage.swift */; };
+		A35360CD2064DEEA00905EA2 /* changeTextSizeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35360CC2064DEEA00905EA2 /* changeTextSizeColor.swift */; };
+		A386593E2071FC6D00F738DA /* convertAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = A386593D2071FC6D00F738DA /* convertAudio.swift */; };
+		A3A5F87E207450AC00F01B67 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A3A5F87D207450AC00F01B67 /* GoogleService-Info.plist */; };
 		A3BAA3532060904900BD87D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BAA3522060904900BD87D5 /* AppDelegate.swift */; };
-		A3BAA3552060904900BD87D5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BAA3542060904900BD87D5 /* ViewController.swift */; };
 		A3BAA3582060904900BD87D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3BAA3562060904900BD87D5 /* Main.storyboard */; };
 		A3BAA35A2060904900BD87D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3BAA3592060904900BD87D5 /* Assets.xcassets */; };
 		A3BAA35D2060904900BD87D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3BAA35B2060904900BD87D5 /* LaunchScreen.storyboard */; };
 		A3BAA3682060904900BD87D5 /* mrivoiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BAA3672060904900BD87D5 /* mrivoiceTests.swift */; };
 		A3BAA3732060904900BD87D5 /* mrivoiceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BAA3722060904900BD87D5 /* mrivoiceUITests.swift */; };
+		A3BAA3812060967400BD87D5 /* voiceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BAA3802060967400BD87D5 /* voiceListViewController.swift */; };
+		A3BAA38420609D0100BD87D5 /* voiceListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BAA38220609D0100BD87D5 /* voiceListTableViewCell.swift */; };
+		A3BAA38520609D0100BD87D5 /* voiceListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3BAA38320609D0100BD87D5 /* voiceListTableViewCell.xib */; };
+		A3BAA3892060DAB100BD87D5 /* sideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BAA3882060DAB100BD87D5 /* sideMenuViewController.swift */; };
+		A3BAA38B2060F15400BD87D5 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BAA38A2060F15400BD87D5 /* Const.swift */; };
+		A3BAA38D20636D5000BD87D5 /* voiceRecPreparationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BAA38C20636D5000BD87D5 /* voiceRecPreparationViewController.swift */; };
+		A3D0A02F20688401006D7726 /* voiceCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D0A02E20688401006D7726 /* voiceCheckViewController.swift */; };
+		A3D0A03120688E5E006D7726 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D0A03020688E5E006D7726 /* UIImage+Extension.swift */; };
+		A3D0A0342068EBDA006D7726 /* AVCaptureDeviceAuthorizationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D0A0332068EBDA006D7726 /* AVCaptureDeviceAuthorizationProtocol.swift */; };
+		A3D0A0362068ED6D006D7726 /* AlertUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D0A0352068ED6D006D7726 /* AlertUtility.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,9 +53,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		08AEBA1E4D41B5F0E784003B /* Pods_mrivoice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mrivoice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F0E9A719665A01F272E6BC5 /* Pods-mrivoiceUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mrivoiceUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mrivoiceUITests/Pods-mrivoiceUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		3F6806C647DF5A082CD25560 /* Pods-mrivoiceUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mrivoiceUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-mrivoiceUITests/Pods-mrivoiceUITests.release.xcconfig"; sourceTree = "<group>"; };
+		767467CDB4E447B0333A09A3 /* Pods-mrivoice.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mrivoice.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mrivoice/Pods-mrivoice.debug.xcconfig"; sourceTree = "<group>"; };
+		9328A33958F028E88842A7A8 /* Pods_mrivoiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mrivoiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3347F30206CE8680083DD70 /* MyStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyStyle.swift; sourceTree = "<group>"; };
+		A3347F32206DBB6F0083DD70 /* AsyncUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncUtil.swift; sourceTree = "<group>"; };
+		A35360C82064CE8600905EA2 /* voiceRecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = voiceRecordingViewController.swift; sourceTree = "<group>"; };
+		A35360CA2064D3CB00905EA2 /* makeIconImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = makeIconImage.swift; sourceTree = "<group>"; };
+		A35360CC2064DEEA00905EA2 /* changeTextSizeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = changeTextSizeColor.swift; sourceTree = "<group>"; };
+		A386593D2071FC6D00F738DA /* convertAudio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = convertAudio.swift; sourceTree = "<group>"; };
+		A3A5F87D207450AC00F01B67 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A3BAA34F2060904800BD87D5 /* mrivoice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mrivoice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BAA3522060904900BD87D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A3BAA3542060904900BD87D5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A3BAA3572060904900BD87D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A3BAA3592060904900BD87D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A3BAA35C2060904900BD87D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +77,20 @@
 		A3BAA36E2060904900BD87D5 /* mrivoiceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mrivoiceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3BAA3722060904900BD87D5 /* mrivoiceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mrivoiceUITests.swift; sourceTree = "<group>"; };
 		A3BAA3742060904900BD87D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A3BAA3802060967400BD87D5 /* voiceListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = voiceListViewController.swift; sourceTree = "<group>"; };
+		A3BAA38220609D0100BD87D5 /* voiceListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = voiceListTableViewCell.swift; sourceTree = "<group>"; };
+		A3BAA38320609D0100BD87D5 /* voiceListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = voiceListTableViewCell.xib; sourceTree = "<group>"; };
+		A3BAA3882060DAB100BD87D5 /* sideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sideMenuViewController.swift; sourceTree = "<group>"; };
+		A3BAA38A2060F15400BD87D5 /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
+		A3BAA38C20636D5000BD87D5 /* voiceRecPreparationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = voiceRecPreparationViewController.swift; sourceTree = "<group>"; };
+		A3D0A02E20688401006D7726 /* voiceCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = voiceCheckViewController.swift; sourceTree = "<group>"; };
+		A3D0A03020688E5E006D7726 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		A3D0A0332068EBDA006D7726 /* AVCaptureDeviceAuthorizationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCaptureDeviceAuthorizationProtocol.swift; sourceTree = "<group>"; };
+		A3D0A0352068ED6D006D7726 /* AlertUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertUtility.swift; sourceTree = "<group>"; };
+		AA28BE2E9C3DC6A60810FB29 /* Pods-mrivoiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mrivoiceTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-mrivoiceTests/Pods-mrivoiceTests.release.xcconfig"; sourceTree = "<group>"; };
+		C6F3528569FA4710746660A0 /* Pods_mrivoiceUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mrivoiceUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2E5A688224A8283F42559E2 /* Pods-mrivoice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mrivoice.release.xcconfig"; path = "Pods/Target Support Files/Pods-mrivoice/Pods-mrivoice.release.xcconfig"; sourceTree = "<group>"; };
+		FA01312F7CFA7BA628814118 /* Pods-mrivoiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mrivoiceTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mrivoiceTests/Pods-mrivoiceTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A7AC1020DF16DDEF279C336 /* Pods_mrivoice.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1181A8A7DB78715D5BFDE3A0 /* Pods_mrivoiceTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,12 +114,53 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				511167ADDFA7340CBD5287A0 /* Pods_mrivoiceUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0297B2A62061DAAA00E3CC07 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				A3BAA38A2060F15400BD87D5 /* Const.swift */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
+		0297B2A72061DABB00E3CC07 /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				A3BAA38220609D0100BD87D5 /* voiceListTableViewCell.swift */,
+				A3BAA38320609D0100BD87D5 /* voiceListTableViewCell.xib */,
+			);
+			path = cell;
+			sourceTree = "<group>";
+		};
+		35D10578BDC04EDF015EFC37 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				767467CDB4E447B0333A09A3 /* Pods-mrivoice.debug.xcconfig */,
+				F2E5A688224A8283F42559E2 /* Pods-mrivoice.release.xcconfig */,
+				FA01312F7CFA7BA628814118 /* Pods-mrivoiceTests.debug.xcconfig */,
+				AA28BE2E9C3DC6A60810FB29 /* Pods-mrivoiceTests.release.xcconfig */,
+				2F0E9A719665A01F272E6BC5 /* Pods-mrivoiceUITests.debug.xcconfig */,
+				3F6806C647DF5A082CD25560 /* Pods-mrivoiceUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		657A7C4022265F7DDF7CCCF3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				08AEBA1E4D41B5F0E784003B /* Pods_mrivoice.framework */,
+				9328A33958F028E88842A7A8 /* Pods_mrivoiceTests.framework */,
+				C6F3528569FA4710746660A0 /* Pods_mrivoiceUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A3BAA3462060904800BD87D5 = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +168,8 @@
 				A3BAA3662060904900BD87D5 /* mrivoiceTests */,
 				A3BAA3712060904900BD87D5 /* mrivoiceUITests */,
 				A3BAA3502060904800BD87D5 /* Products */,
+				35D10578BDC04EDF015EFC37 /* Pods */,
+				657A7C4022265F7DDF7CCCF3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,12 +186,27 @@
 		A3BAA3512060904900BD87D5 /* mrivoice */ = {
 			isa = PBXGroup;
 			children = (
-				A3BAA3522060904900BD87D5 /* AppDelegate.swift */,
-				A3BAA3542060904900BD87D5 /* ViewController.swift */,
+				0297B2A72061DABB00E3CC07 /* cell */,
+				0297B2A62061DAAA00E3CC07 /* common */,
 				A3BAA3562060904900BD87D5 /* Main.storyboard */,
-				A3BAA3592060904900BD87D5 /* Assets.xcassets */,
 				A3BAA35B2060904900BD87D5 /* LaunchScreen.storyboard */,
+				A3BAA3522060904900BD87D5 /* AppDelegate.swift */,
+				A3BAA3802060967400BD87D5 /* voiceListViewController.swift */,
+				A3BAA3882060DAB100BD87D5 /* sideMenuViewController.swift */,
 				A3BAA35E2060904900BD87D5 /* Info.plist */,
+				A3A5F87D207450AC00F01B67 /* GoogleService-Info.plist */,
+				A3BAA3592060904900BD87D5 /* Assets.xcassets */,
+				A3BAA38C20636D5000BD87D5 /* voiceRecPreparationViewController.swift */,
+				A35360C82064CE8600905EA2 /* voiceRecordingViewController.swift */,
+				A35360CA2064D3CB00905EA2 /* makeIconImage.swift */,
+				A35360CC2064DEEA00905EA2 /* changeTextSizeColor.swift */,
+				A3D0A02E20688401006D7726 /* voiceCheckViewController.swift */,
+				A3D0A03020688E5E006D7726 /* UIImage+Extension.swift */,
+				A3D0A0332068EBDA006D7726 /* AVCaptureDeviceAuthorizationProtocol.swift */,
+				A3D0A0352068ED6D006D7726 /* AlertUtility.swift */,
+				A3347F30206CE8680083DD70 /* MyStyle.swift */,
+				A3347F32206DBB6F0083DD70 /* AsyncUtil.swift */,
+				A386593D2071FC6D00F738DA /* convertAudio.swift */,
 			);
 			path = mrivoice;
 			sourceTree = "<group>";
@@ -132,9 +236,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A3BAA3772060904900BD87D5 /* Build configuration list for PBXNativeTarget "mrivoice" */;
 			buildPhases = (
+				F30B2E5B96C901C3841202E3 /* [CP] Check Pods Manifest.lock */,
 				A3BAA34B2060904800BD87D5 /* Sources */,
 				A3BAA34C2060904800BD87D5 /* Frameworks */,
 				A3BAA34D2060904800BD87D5 /* Resources */,
+				E4A55812BCA0B122BD0C909C /* [CP] Embed Pods Frameworks */,
+				DB8A835638A2E3E9D79C730C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -149,9 +256,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A3BAA37A2060904900BD87D5 /* Build configuration list for PBXNativeTarget "mrivoiceTests" */;
 			buildPhases = (
+				3218AEB04BACAEB8AEA130B1 /* [CP] Check Pods Manifest.lock */,
 				A3BAA35F2060904900BD87D5 /* Sources */,
 				A3BAA3602060904900BD87D5 /* Frameworks */,
 				A3BAA3612060904900BD87D5 /* Resources */,
+				904C1F7059310E8FAFB9EA42 /* [CP] Embed Pods Frameworks */,
+				09B7793A922D8CC5FADB14BF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -167,9 +277,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A3BAA37D2060904900BD87D5 /* Build configuration list for PBXNativeTarget "mrivoiceUITests" */;
 			buildPhases = (
+				97268670BDDA70791D9D10B3 /* [CP] Check Pods Manifest.lock */,
 				A3BAA36A2060904900BD87D5 /* Sources */,
 				A3BAA36B2060904900BD87D5 /* Frameworks */,
 				A3BAA36C2060904900BD87D5 /* Resources */,
+				EAA9D3FA94C071DCDB6EAACF /* [CP] Embed Pods Frameworks */,
+				084E5179AF8132F017CE4195 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -232,7 +345,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3BAA38520609D0100BD87D5 /* voiceListTableViewCell.xib in Resources */,
 				A3BAA35D2060904900BD87D5 /* LaunchScreen.storyboard in Resources */,
+				A3A5F87E207450AC00F01B67 /* GoogleService-Info.plist in Resources */,
 				A3BAA35A2060904900BD87D5 /* Assets.xcassets in Resources */,
 				A3BAA3582060904900BD87D5 /* Main.storyboard in Resources */,
 			);
@@ -254,13 +369,197 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		084E5179AF8132F017CE4195 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-mrivoiceUITests/Pods-mrivoiceUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		09B7793A922D8CC5FADB14BF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-mrivoiceTests/Pods-mrivoiceTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3218AEB04BACAEB8AEA130B1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-mrivoiceTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		904C1F7059310E8FAFB9EA42 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-mrivoiceTests/Pods-mrivoiceTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		97268670BDDA70791D9D10B3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-mrivoiceUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DB8A835638A2E3E9D79C730C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-mrivoice/Pods-mrivoice-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E4A55812BCA0B122BD0C909C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-mrivoice/Pods-mrivoice-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/EZAudio/EZAudio.framework",
+				"${BUILT_PRODUCTS_DIR}/FilesProvider/FilesProvider.framework",
+				"${BUILT_PRODUCTS_DIR}/FontAwesomeKit/FontAwesomeKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GradientCircularProgress/GradientCircularProgress.framework",
+				"${BUILT_PRODUCTS_DIR}/KYDrawerController/KYDrawerController.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
+				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EZAudio.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FilesProvider.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FontAwesomeKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GradientCircularProgress.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KYDrawerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-mrivoice/Pods-mrivoice-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EAA9D3FA94C071DCDB6EAACF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-mrivoiceUITests/Pods-mrivoiceUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F30B2E5B96C901C3841202E3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-mrivoice-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A3BAA34B2060904800BD87D5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A3BAA3552060904900BD87D5 /* ViewController.swift in Sources */,
+				A386593E2071FC6D00F738DA /* convertAudio.swift in Sources */,
+				A35360CB2064D3CB00905EA2 /* makeIconImage.swift in Sources */,
+				A3BAA38420609D0100BD87D5 /* voiceListTableViewCell.swift in Sources */,
+				A3D0A0362068ED6D006D7726 /* AlertUtility.swift in Sources */,
+				A3BAA3892060DAB100BD87D5 /* sideMenuViewController.swift in Sources */,
+				A3BAA38D20636D5000BD87D5 /* voiceRecPreparationViewController.swift in Sources */,
+				A3D0A02F20688401006D7726 /* voiceCheckViewController.swift in Sources */,
+				A3BAA3812060967400BD87D5 /* voiceListViewController.swift in Sources */,
+				A3347F31206CE8680083DD70 /* MyStyle.swift in Sources */,
+				A35360C92064CE8600905EA2 /* voiceRecordingViewController.swift in Sources */,
+				A3D0A0342068EBDA006D7726 /* AVCaptureDeviceAuthorizationProtocol.swift in Sources */,
 				A3BAA3532060904900BD87D5 /* AppDelegate.swift in Sources */,
+				A35360CD2064DEEA00905EA2 /* changeTextSizeColor.swift in Sources */,
+				A3D0A03120688E5E006D7726 /* UIImage+Extension.swift in Sources */,
+				A3347F33206DBB6F0083DD70 /* AsyncUtil.swift in Sources */,
+				A3BAA38B2060F15400BD87D5 /* Const.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,11 +723,13 @@
 		};
 		A3BAA3782060904900BD87D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 767467CDB4E447B0333A09A3 /* Pods-mrivoice.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N4P67Q7Y28;
 				INFOPLIST_FILE = mrivoice/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.mediasoken.mrivoice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -439,11 +740,13 @@
 		};
 		A3BAA3792060904900BD87D5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F2E5A688224A8283F42559E2 /* Pods-mrivoice.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N4P67Q7Y28;
 				INFOPLIST_FILE = mrivoice/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.mediasoken.mrivoice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -454,6 +757,7 @@
 		};
 		A3BAA37B2060904900BD87D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA01312F7CFA7BA628814118 /* Pods-mrivoiceTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -471,6 +775,7 @@
 		};
 		A3BAA37C2060904900BD87D5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AA28BE2E9C3DC6A60810FB29 /* Pods-mrivoiceTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -488,6 +793,7 @@
 		};
 		A3BAA37E2060904900BD87D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2F0E9A719665A01F272E6BC5 /* Pods-mrivoiceUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -504,6 +810,7 @@
 		};
 		A3BAA37F2060904900BD87D5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3F6806C647DF5A082CD25560 /* Pods-mrivoiceUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
