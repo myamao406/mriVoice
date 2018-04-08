@@ -1,0 +1,6 @@
+framework module Pods_mrivoiceUITests {
+  umbrella header "Pods-mrivoiceUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
