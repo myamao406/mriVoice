@@ -38,33 +38,35 @@ public struct MyStyle: StyleProperty {
     // Dismiss
     public var dismissTimeInterval: Double? = nil // 'nil' for default setting.
     
-//    // Progress Size
-//    public var progressSize: CGFloat = 200
-//
-//    // Gradient Circular
-//    public var arcLineWidth: CGFloat = 18.0
-//    public var startArcColor: UIColor = UIColor.clear
-//    public var endArcColor: UIColor = UIColor.orange
-//
-//    // Base Circular
-//    public var baseLineWidth: CGFloat? = 19.0
-//    public var baseArcColor: UIColor? = UIColor.clear
-//
-//    // Ratio
-//    public var ratioLabelFont: UIFont? = UIFont(name: "Verdana-Bold", size: 16.0)
-//    public var ratioLabelFontColor: UIColor? = UIColor.white
-//
-//    // Message
-//    public var messageLabelFont: UIFont? = UIFont.systemFont(ofSize: 16.0)
-//    public var messageLabelFontColor: UIColor? = UIColor.white
-//
-//    // Background
-//    public var backgroundStyle: BackgroundStyles = .dark
-//
-//    // Dismiss
-//    public var dismissTimeInterval: Double? = 0.0 // 'nil' for default setting.
+    public init() {}
+}
+
+public struct BlueIndicatorStyle: StyleProperty {
+    // Progress Size
+    public var progressSize: CGFloat = 44
     
-    /*** style properties **********************************************************************************/
+    // Gradient Circular
+    public var arcLineWidth: CGFloat = 4.0
+    public var startArcColor: UIColor = ColorUtil.toUIColor(r: 235.0, g: 245.0, b: 255.0, a: 1.0)
+    public var endArcColor: UIColor = ColorUtil.toUIColor(r: 0.0, g: 122.0, b: 255.0, a: 1.0)
+    
+    // Base Circular
+    public var baseLineWidth: CGFloat? = 4.0
+    public var baseArcColor: UIColor? = ColorUtil.toUIColor(r: 215.0, g: 215.0, b: 215.0, a: 0.4)
+    
+    // Ratio
+    public var ratioLabelFont: UIFont? = nil
+    public var ratioLabelFontColor: UIColor? = nil
+    
+    // Message
+    public var messageLabelFont: UIFont? = nil
+    public var messageLabelFontColor: UIColor? = nil
+    
+    // Background
+    public var backgroundStyle: BackgroundStyles = .light
+    
+    // Dismiss
+    public var dismissTimeInterval: Double? = nil // 'nil' for default setting.
     
     public init() {}
 }

@@ -1,0 +1,38 @@
+/* 
+  Localizable.strings
+  mrivoice
+
+  Created by it_dev01(yamao) on 2018/08/10.
+  Copyright © 2018年 it_dev01(yamao). All rights reserved.
+*/
+
+"login" = "ログオン";
+"mail" = "メールアドレス";
+"password" = "パスワード";
+"retake" = "やり直し";
+"logout" = "ログアウト";
+"version" = "バージョン";
+"build" = "ビルド番号";
+"error" = "エラー";
+"err_msg" = "メールアドレスもしくはパスワードが\n間違っています。";
+"logging" = "ログイン中...";
+"connect_err_msg" = "接続環境の良いところで再度お試しください";
+"access_permission" = "アクセス許可設定";
+"camera_access" = "カメラへのアクセスを許可してください";
+"setting" = "設定する";
+"cancel" = "キャンセル";
+"done" = "完了";
+"country" = "国";
+"gender" = "性別";
+"location" = "収録場所";
+"countdown" = "カウントダウン表示する";
+"male" = "男性";
+"female" = "女性";
+"fileCopyError" = "ファイルの保存に失敗しました。";
+"hotel" = "ホテル";
+"airport" = "空港";
+"other" = "その他";
+"bit" = "ビット";
+"channel" = "チャンネル";
+"recordedDisp" = "録音済表示";
+

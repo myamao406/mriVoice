@@ -14,7 +14,7 @@ import Foundation
  
  No instance of this class should (and can) be created. Use derived classes instead. It leads to a crash with `fatalError()`.
  */
-open class HTTPFileProvider: FileProviderBasicRemote, FileProviderOperations, FileProviderReadWrite {
+open class HTTPFileProvider: NSObject, FileProviderBasicRemote, FileProviderOperations, FileProviderReadWrite, FileProviderReadWriteProgressive {
     open class var type: String { fatalError("HTTPFileProvider is an abstract class. Please implement \(#function) in subclass.") }
     open let baseURL: URL?
     open var dispatch_queue: DispatchQueue
@@ -97,6 +97,8 @@ open class HTTPFileProvider: FileProviderBasicRemote, FileProviderOperations, Fi
         dispatch_queue = DispatchQueue(label: queueLabel, attributes: .concurrent)
         operation_queue = OperationQueue()
         operation_queue.name = "\(queueLabel).Operation"
+        
+        super.init()
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -285,12 +287,10 @@ open class HTTPFileProvider: FileProviderBasicRemote, FileProviderOperations, Fi
      - Returns: An `Progress` to get progress or cancel progress.
      */
     @discardableResult
-    open func contents(path: String, offset: Int64 = 0, responseHandler: ((_ response: URLResponse) -> Void)? = nil, progressHandler: @escaping (_ position: Int64, _ data: Data) -> Void, completionHandler: SimpleCompletionHandler) -> Progress? {
+    open func contents(path: String, offset: Int64 = 0, length: Int = -1, responseHandler: ((_ response: URLResponse) -> Void)? = nil, progressHandler: @escaping (_ position: Int64, _ data: Data) -> Void, completionHandler: SimpleCompletionHandler) -> Progress? {
         let operation = FileOperationType.fetch(path: path)
         var request = self.request(for: operation)
-        if offset > 0 {
-            request.addValue("bytes \(offset)-", forHTTPHeaderField: "Range")
-        }
+        request.setValue(rangeWithOffset: offset, length: length)
         var position: Int64 = offset
         return download_progressive(path: path, request: request, operation: operation, responseHandler: responseHandler, progressHandler: { data in
             progressHandler(position, data)

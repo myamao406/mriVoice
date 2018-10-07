@@ -9,6 +9,7 @@
 import UIKit
 import KYDrawerController
 import Firebase
+import FirebaseFirestore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,20 +20,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        FirebaseApp.configure()
+        
         // Drower Menu
         let storyboard = UIStoryboard.init(name: "Main", bundle: Bundle.main)
-        
+
         let mainViewController   = storyboard.instantiateViewController(withIdentifier: "Main")
         let drawerViewController = storyboard.instantiateViewController(withIdentifier: "Left")
-        
+
         drawerController.mainViewController = mainViewController
         drawerController.drawerViewController = drawerViewController
-        
+
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = drawerController
         window?.makeKeyAndVisible()
-        
-        FirebaseApp.configure()
         
         return true
     }

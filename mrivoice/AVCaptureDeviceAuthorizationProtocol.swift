@@ -43,11 +43,11 @@ extension AVCaptureDeviceAuthorizationProtocol {
         }
 
         AlertUtility.showNoticeAlert(
-            title:"アクセス許可設定",
-            message: "カメラへのアクセスを許可してください",
-            okButtonTitle: "設定する",
+            title:NSLocalizedString("access_permission", comment: "title"),
+            message: NSLocalizedString("camera_access", comment: "message"),
+            okButtonTitle: NSLocalizedString("setting", comment: "okButtonTitle"),
             okButtonHandler: okButtonHandler,
-            cancelButtonTitle: "キャンセル",
+            cancelButtonTitle: NSLocalizedString("cancel", comment: "cancelButtonTitle"),
             cancelButtonHandler: nil,
             viewController: viewController)
     }

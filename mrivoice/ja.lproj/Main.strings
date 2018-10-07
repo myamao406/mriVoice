@@ -1,0 +1,177 @@
+
+/* Class = "UILabel"; text = "１時間前"; ObjectID = "0Wc-Bz-XSL"; */
+"0Wc-Bz-XSL.text" = "１時間前";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "1XC-ph-ssH"; */
+"1XC-ph-ssH.text" = "Label";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "2FD-Ke-GsZ"; */
+"2FD-Ke-GsZ.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UIButton"; normalTitle = "ログオン"; ObjectID = "4an-LU-cO0"; */
+"4an-LU-cO0.normalTitle" = "ログオン";
+
+/* Class = "UIButton"; normalTitle = "登録"; ObjectID = "6A0-G6-j6t"; */
+"6A0-G6-j6t.normalTitle" = "登録";
+
+/* Class = "UILabel"; text = "アップロード"; ObjectID = "73Q-vj-exd"; */
+"73Q-vj-exd.text" = "アップロード";
+
+/* Class = "UIButton"; normalTitle = "プライバシーポリシー"; ObjectID = "73n-5A-mNP"; */
+"73n-5A-mNP.normalTitle" = "プライバシーポリシー";
+
+/* Class = "UITextField"; placeholder = "メールアドレス"; ObjectID = "AtT-lW-k0x"; */
+"AtT-lW-k0x.placeholder" = "メールアドレス";
+
+/* Class = "UIButton"; normalTitle = "OK"; ObjectID = "BJ3-Wq-4N1"; */
+"BJ3-Wq-4N1.normalTitle" = "OK";
+
+/* Class = "UILabel"; text = "アップ ロード"; ObjectID = "BWN-FP-smv"; */
+"BWN-FP-smv.text" = "3";
+
+/* Class = "UITextField"; placeholder = "名前（最大30文字）"; ObjectID = "CLa-Gm-QFp"; */
+"CLa-Gm-QFp.placeholder" = "名前（最大30文字）";
+
+/* Class = "UILabel"; text = "収録前"; ObjectID = "Dea-bm-1WD"; */
+"Dea-bm-1WD.text" = "1";
+
+/* Class = "UILabel"; text = "利用規約及びプライバシーポリシーに同意する"; ObjectID = "EZz-1j-wwl"; */
+"EZz-1j-wwl.text" = "利用規約及びプライバシーポリシーに同意する";
+
+/* Class = "UITextField"; placeholder = "パスワード（8〜32文字）"; ObjectID = "Gf6-pF-2YM"; */
+"Gf6-pF-2YM.placeholder" = "パスワード（8〜32文字）";
+
+/* Class = "UILabel"; text = "収録前"; ObjectID = "IoI-0Q-wLi"; */
+"IoI-0Q-wLi.text" = "1";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "L0U-3L-KRy"; */
+"L0U-3L-KRy.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UILabel"; text = "収録中"; ObjectID = "N3K-PB-Lvl"; */
+"N3K-PB-Lvl.text" = "2";
+
+/* Class = "UILabel"; text = "→"; ObjectID = "NOO-so-gtw"; */
+"NOO-so-gtw.text" = "→";
+
+/* Class = "UILabel"; text = "→"; ObjectID = "Ocv-xI-fGO"; */
+"Ocv-xI-fGO.text" = "→";
+
+/* Class = "UILabel"; text = "収録中"; ObjectID = "QCL-Sd-8fa"; */
+"QCL-Sd-8fa.text" = "2";
+
+/* Class = "UIButton"; normalTitle = "利用規約"; ObjectID = "SLg-X9-XbY"; */
+"SLg-X9-XbY.normalTitle" = "利用規約";
+
+/* Class = "UILabel"; text = "以下の項目を入力して下さい"; ObjectID = "TKR-fD-UYm"; */
+"TKR-fD-UYm.text" = "以下の項目を入力して下さい";
+
+/* Class = "UILabel"; text = "mriVoice"; ObjectID = "UCo-Wf-zgt"; */
+"UCo-Wf-zgt.text" = "mriVoice";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "ULv-jp-ioJ"; */
+"ULv-jp-ioJ.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UIButton"; normalTitle = "やり直し"; ObjectID = "Vwi-jl-02C"; */
+"Vwi-jl-02C.normalTitle" = "やり直し";
+
+/* Class = "UILabel"; text = "ログインユーザーのまま"; ObjectID = "WG1-GE-NeA"; */
+"WG1-GE-NeA.text" = "ログインユーザーのまま";
+
+/* Class = "UILabel"; text = "収録中"; ObjectID = "YN6-7J-cUc"; */
+"YN6-7J-cUc.text" = "2";
+
+/* Class = "UILabel"; text = "子供"; ObjectID = "ae2-Q1-3fp"; */
+"ae2-Q1-3fp.text" = "子供";
+
+/* Class = "UITextField"; placeholder = "メールアドレス（確認）"; ObjectID = "ay8-I7-tS2"; */
+"ay8-I7-tS2.placeholder" = "メールアドレス（確認）";
+
+/* Class = "UILabel"; text = "→"; ObjectID = "dPE-8T-sXs"; */
+"dPE-8T-sXs.text" = "→";
+
+/* Class = "UILabel"; text = "男女どちらでも"; ObjectID = "dhx-2l-cH8"; */
+"dhx-2l-cH8.text" = "男女どちらでも";
+
+/* Class = "UILabel"; text = "１時間前"; ObjectID = "eHJ-Kg-GEb"; */
+"eHJ-Kg-GEb.text" = "１時間前";
+
+/* Class = "UILabel"; text = "収録前"; ObjectID = "eYz-3e-h17"; */
+"eYz-3e-h17.text" = "1";
+
+/* Class = "UILabel"; text = "子供"; ObjectID = "ezz-Ff-Oyk"; */
+"ezz-Ff-Oyk.text" = "子供";
+
+/* Class = "UILabel"; text = "2018/5/1 まで"; ObjectID = "f5U-Oe-pe6"; */
+"f5U-Oe-pe6.text" = "2018/5/1 まで";
+
+/* Class = "UINavigationItem"; title = "プライバシーポリシー"; ObjectID = "fSJ-qo-S8E"; */
+"fSJ-qo-S8E.title" = "プライバシーポリシー";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "frN-LS-lq1"; */
+"frN-LS-lq1.text" = "Label";
+
+/* Class = "UILabel"; text = "→"; ObjectID = "gOC-7p-08N"; */
+"gOC-7p-08N.text" = "→";
+
+/* Class = "UITextField"; placeholder = "パスワード"; ObjectID = "hBW-jQ-RjD"; */
+"hBW-jQ-RjD.placeholder" = "パスワード";
+
+/* Class = "UILabel"; text = "アップ ロード"; ObjectID = "hHe-Qt-6hC"; */
+"hHe-Qt-6hC.text" = "3";
+
+/* Class = "UILabel"; text = "アップ ロード"; ObjectID = "hSv-e8-CBb"; */
+"hSv-e8-CBb.text" = "3";
+
+/* Class = "UILabel"; text = "→"; ObjectID = "kO4-O8-lPZ"; */
+"kO4-O8-lPZ.text" = "→";
+
+/* Class = "UISegmentedControl"; m0E-Ut-Tsp.segmentTitles[0] = "男"; ObjectID = "m0E-Ut-Tsp"; */
+"m0E-Ut-Tsp.segmentTitles[0]" = "男";
+
+/* Class = "UISegmentedControl"; m0E-Ut-Tsp.segmentTitles[1] = "女"; ObjectID = "m0E-Ut-Tsp"; */
+"m0E-Ut-Tsp.segmentTitles[1]" = "女";
+
+/* Class = "UISegmentedControl"; m3l-dN-aRC.segmentTitles[0] = "子供"; ObjectID = "m3l-dN-aRC"; */
+"m3l-dN-aRC.segmentTitles[0]" = "子供";
+
+/* Class = "UISegmentedControl"; m3l-dN-aRC.segmentTitles[1] = "大人"; ObjectID = "m3l-dN-aRC"; */
+"m3l-dN-aRC.segmentTitles[1]" = "大人";
+
+/* Class = "UISegmentedControl"; m3l-dN-aRC.segmentTitles[2] = "老人"; ObjectID = "m3l-dN-aRC"; */
+"m3l-dN-aRC.segmentTitles[2]" = "老人";
+
+/* Class = "UILabel"; text = "子供の会話２"; ObjectID = "p8g-0D-D7I"; */
+"p8g-0D-D7I.text" = "子供の会話２";
+
+/* Class = "UINavigationItem"; title = "利用規約"; ObjectID = "phY-EQ-jd0"; */
+"phY-EQ-jd0.title" = "利用規約";
+
+/* Class = "UILabel"; text = "子供の会話２"; ObjectID = "qP8-kP-3cq"; */
+"qP8-kP-3cq.text" = "子供の会話２";
+
+/* Class = "UILabel"; text = "aaaaaaa@aaaaaaa.com"; ObjectID = "r2S-g8-ZFU"; */
+"r2S-g8-ZFU.text" = "aaaaaaa@aaaaaaa.com";
+
+/* Class = "UILabel"; text = "男女どちらでも"; ObjectID = "rgh-RK-ME6"; */
+"rgh-RK-ME6.text" = "男女どちらでも";
+
+/* Class = "UILabel"; text = "→"; ObjectID = "sjg-fW-gx0"; */
+"sjg-fW-gx0.text" = "→";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "tbm-h4-oZd"; */
+"tbm-h4-oZd.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "tgW-le-hOf"; */
+"tgW-le-hOf.title" = "Item";
+
+/* Class = "UITextField"; placeholder = "メールアドレス"; ObjectID = "uau-a7-Lhu"; */
+"uau-a7-Lhu.placeholder" = "メールアドレス";
+
+/* Class = "UITextField"; placeholder = "パスワード（確認）"; ObjectID = "vqf-MM-hDd"; */
+"vqf-MM-hDd.placeholder" = "パスワード（確認）";
+
+/* Class = "UITextField"; placeholder = "ログインID（最大22文字）"; ObjectID = "zV4-ig-lxq"; */
+"zV4-ig-lxq.placeholder" = "ログインID（最大22文字）";
+
+/* Class = "UILabel"; text = "2018/5/1 まで"; ObjectID = "zmy-dG-Y4q"; */
+"zmy-dG-Y4q.text" = "2018/5/1 まで";

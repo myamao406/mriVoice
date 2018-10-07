@@ -178,13 +178,13 @@ internal extension FTPFileProvider {
                     throw self.urlError("", code: .badServerResponse)
                 }
                 
-                let destArray = destString.components(separatedBy: ",").flatMap({ UInt32(trimmedNumber($0)) })
+                let destArray = destString.components(separatedBy: ",").compactMap({ UInt32(trimmedNumber($0)) })
                 guard destArray.count == 6 else {
                     throw self.urlError("", code: .badServerResponse)
                 }
                 
                 // first 4 elements are ip, 2 next are port, as byte
-                var host = destArray.prefix(4).flatMap(String.init).joined(separator: ".")
+                var host = destArray.prefix(4).compactMap(String.init).joined(separator: ".")
                 let portHi = Int(destArray[4]) << 8
                 let portLo = Int(destArray[5])
                 let port = portHi + portLo
@@ -319,6 +319,7 @@ internal extension FTPFileProvider {
                 return
             }
             
+            let success_lock = NSLock()
             var success = false
             let command = useMLST ? "MLSD \(path)" : "LIST \(path)"
             self.execute(command: command, on: task, minLength: 20, afterSend: { error in
@@ -326,6 +327,7 @@ internal extension FTPFileProvider {
                     let timeout = self.session.configuration.timeoutIntervalForRequest
                     var finalData = Data()
                     var eof = false
+                    let error_lock = NSLock()
                     var error: Error?
                     
                     do {
@@ -337,17 +339,22 @@ internal extension FTPFileProvider {
                                     finalData.append(data)
                                 }
                                 eof = seof
+                                error_lock.try()
                                 error = serror
+                                error_lock.unlock()
                                 group.leave()
                             }
                             let waitResult = group.wait(timeout: .now() + timeout)
                             
+                            error_lock.try()
                             if let error = error {
+                                error_lock.unlock()
                                 if (error as? URLError)?.code != .cancelled {
                                     throw error
                                 }
                                 return
                             }
+                            error_lock.unlock()
                             
                             if waitResult == .timedOut {
                                 throw self.urlError(path, code: .timedOut)
@@ -359,8 +366,10 @@ internal extension FTPFileProvider {
                         }
                         
                         let contents: [String] = response.components(separatedBy: "\n")
-                            .flatMap({ $0.trimmingCharacters(in: .whitespacesAndNewlines) })
+                            .compactMap({ $0.trimmingCharacters(in: .whitespacesAndNewlines) })
+                        success_lock.try()
                         success = true
+                        success_lock.unlock()
                         completionHandler(contents, nil)
                     } catch {
                         completionHandler([], error)
@@ -382,8 +391,12 @@ internal extension FTPFileProvider {
                         throw self.urlError(path, code: .unsupportedURL)
                     }
                     
+                    success_lock.try()
                     if !success && !(response.hasPrefix("25") || response.hasPrefix("15")) {
+                        success_lock.unlock()
                         throw FileProviderFTPError(message: response, path: path)
+                    } else {
+                        success_lock.unlock()
                     }
                 } catch {
                     self.dispatch_queue.async {
@@ -477,6 +490,7 @@ internal extension FTPFileProvider {
                     DispatchQueue.global().async {
                         var totalReceived: Int64 = 0
                         var eof = false
+                        let error_lock = NSLock()
                         var error: Error?
                         while !eof {
                             let group = DispatchGroup()
@@ -491,15 +505,20 @@ internal extension FTPFileProvider {
                                     onProgress(data, totalReceived, totalSize)
                                 }
                                 eof = segeof || (length > 0 && totalReceived >= Int64(length))
+                                error_lock.try()
                                 error = segerror
+                                error_lock.unlock()
                                 group.leave()
                             }
                             let waitResult = group.wait(timeout: .now() + timeout)
                             
+                            error_lock.try()
                             if let error = error {
+                                error_lock.unlock()
                                 completionHandler(error)
                                 return
                             }
+                            error_lock.unlock()
                             
                             if waitResult == .timedOut {
                                 completionHandler(self.urlError(filePath, code: .timedOut))
@@ -538,7 +557,7 @@ internal extension FTPFileProvider {
     
     func ftpFileData(_ task: FileProviderStreamTask, filePath: String, from position: Int64 = 0, length: Int = -1,
                      onTask: ((_ task: FileProviderStreamTask) -> Void)?,
-                     onProgress: ((_ bytesReceived: Int64, _ totalReceived: Int64, _ expectedBytes: Int64) -> Void)?,
+                     onProgress: ((_ data: Data, _ bytesReceived: Int64, _ totalReceived: Int64, _ expectedBytes: Int64) -> Void)?,
                      completionHandler: @escaping (_ data: Data?, _ error: Error?) -> Void) {
         
         // Check cache
@@ -552,7 +571,7 @@ internal extension FTPFileProvider {
         var finalData = Data()
         self.ftpRetrieve(task, filePath: filePath, from: position, length: length, onTask: onTask, onProgress: { (data, total, expected) in
             finalData.append(data)
-            onProgress?(Int64(data.count), total, expected)
+            onProgress?(data, Int64(data.count), total, expected)
         }) { (error) in
             if let error = error {
                 completionHandler(nil, error)
@@ -637,6 +656,7 @@ internal extension FTPFileProvider {
                 return
             }
             let len = 19 /* TYPE response */ + 44 + filePath.count /* STOR open response */ + 10 /* RETR Transfer complete message. */
+            let success_lock = NSLock()
             var success = false
             self.execute(command: "TYPE I"  + "\r\n" + "STOR \(filePath)", on: task, minLength: len, afterSend: { error in
                 onTask?(dataTask)
@@ -655,6 +675,7 @@ internal extension FTPFileProvider {
                 }
                 
                 let chunkSize = 4096
+                let lock = NSLock()
                 var eof = false
                 var sent: Int64 = 0
                 repeat {
@@ -673,33 +694,49 @@ internal extension FTPFileProvider {
                     let group = DispatchGroup()
                     group.enter()
                     dataTask.write(subdata, timeout: timeout, completionHandler: { (serror) in
+                        lock.try()
                         error = serror
                         sent += Int64(subdata.count)
+                        let totalsent = sent
+                        let sentbytes = Int64(subdata.count)
+                        lock.unlock()
                         group.leave()
-                        onProgress?(Int64(subdata.count), sent, size)
+                        onProgress?(sentbytes, totalsent, size)
                         //print("ftp \(filePath): \(subdata.count), \(sent), \(size)")
                     })
                     let waitResult = group.wait(timeout: .now() + timeout)
                     
+                    lock.try()
                     if waitResult == .timedOut {
                         error = self.urlError(filePath, code: .timedOut)
                     }
                     
                     if let error = error {
+                        lock.unlock()
                         completionHandler(error)
                         return
                     }
                     
                     if let data = fromData {
+                        lock.try()
                         let endIndex = min(data.count, Int(sent) + chunkSize)
                         eof = endIndex == data.count
+                        lock.unlock()
                     } else if let fileHandle = fileHandle {
                         eof = Int64(fileHandle.offsetInFile) == size
                     }
+                    
                 } while !eof
+                success_lock.try()
                 success = true
+                success_lock.unlock()
             }) { (response, error) in
-                guard success else { return }
+                success_lock.try()
+                guard success else {
+                    success_lock.unlock()
+                    return
+                }
+                success_lock.unlock()
                 
                 do {
                     if let error = error {
@@ -822,6 +859,7 @@ internal extension FTPFileProvider {
             }
             
             // Send retreive command
+            let success_lock = NSLock()
             var success = false
             let len = 19 /* TYPE response */ + 65 + String(position).count /* REST Response */ + 44 + filePath.count /* STOR open response */ + 10 /* RETR Transfer complete message. */
             self.execute(command: "TYPE I"  + "\r\n" + "REST \(position)"  + "\r\n" + "STOR \(filePath)", on: task, minLength: len, afterSend: { error in
@@ -836,13 +874,20 @@ internal extension FTPFileProvider {
                         completionHandler(error)
                         return
                     }
+                    success_lock.try()
                     success = true
+                    success_lock.unlock()
                     
                     dataTask.closeRead()
                     dataTask.closeWrite()
                 })
             }) { (response, error) in
-                guard success else { return }
+                success_lock.try()
+                guard success else {
+                    success_lock.unlock()
+                    return
+                }
+                success_lock.unlock()
                 
                 do {
                     if let error = error {
@@ -899,7 +944,7 @@ internal extension FTPFileProvider {
         farDateFormatter.dateFormat = "MMM dd yyyy"
         let thisYear = gregorian.component(.year, from: Date())
         
-        let components = text.components(separatedBy: " ").flatMap { $0.isEmpty ? nil : $0 }
+        let components = text.components(separatedBy: " ").compactMap { $0.isEmpty ? nil : $0 }
         guard components.count >= 9 else { return nil }
         let posixPermission = components[0]
         let linksCount = Int(components[1]) ?? 0
@@ -947,7 +992,7 @@ internal extension FTPFileProvider {
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         dateFormatter.dateFormat = "M-d-y hh:mma"
         
-        let components = text.components(separatedBy: " ").flatMap { $0.isEmpty ? nil : $0 }
+        let components = text.components(separatedBy: " ").compactMap { $0.isEmpty ? nil : $0 }
         guard components.count >= 4 else { return nil }
         let size = Int64(components[2]) ?? -1
         let date = components[0..<2].joined(separator: " ")
@@ -968,7 +1013,7 @@ internal extension FTPFileProvider {
     }
     
     func parseMLST(_ text: String, in path: String) -> FileObject? {
-        var components = text.components(separatedBy: ";").flatMap { $0.isEmpty ? nil : $0 }
+        var components = text.components(separatedBy: ";").compactMap { $0.isEmpty ? nil : $0 }
         guard components.count > 1 else { return nil }
         
         let nameOrPath = components.removeLast().trimmingCharacters(in: .whitespacesAndNewlines)
@@ -985,7 +1030,7 @@ internal extension FTPFileProvider {
         
         var attributes = [String: String]()
         for component in components {
-            let keyValue = component.components(separatedBy: "=") .flatMap { $0.isEmpty ? nil : $0 }
+            let keyValue = component.components(separatedBy: "=").compactMap { $0.isEmpty ? nil : $0 }
             guard keyValue.count >= 2, !keyValue[0].isEmpty else { continue }
             attributes[keyValue[0].lowercased()] = keyValue.dropFirst().joined(separator: "=")
         }

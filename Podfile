@@ -10,23 +10,28 @@ target 'mrivoice' do
   pod 'RealmSwift'
 #  pod 'Alamofire', '~> 4.7'
 #  pod 'MRProgress'
+  pod 'KRProgressHUD'
   #  pod 'SlideMenuControllerSwift'
   pod 'KYDrawerController'
   pod 'lottie-ios'
   pod 'EZAudio', '~> 1.1.4'
   pod 'EZAudio/Core', '~> 1.1.4'
-  pod 'GradientCircularProgress', :git => 'https://github.com/keygx/GradientCircularProgress'
   pod 'FilesProvider'
   pod 'Firebase/Core'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Database'
+  pod 'Firebase/Firestore'
+  pod 'SwiftCop'
+  pod 'Toast-Swift', '~> 3.0.1'
   
-#  post_install do |installer|
-#      installer.pods_project.targets.each do |target|
-#          target.build_configurations.each do |config|
-#              config.build_settings['SWIFT_VERSION'] = '3.0'
-#          end
-#      end
-#  end
-
+  pod 'GradientCircularProgress', :git => 'https://github.com/keygx/GradientCircularProgress'
+  post_install do |installer|
+      installer.pods_project.targets.each do |target|
+          target.build_configurations.each do |config|
+              config.build_settings['SWIFT_VERSION'] = '4.1'
+          end
+      end
+  end
 
   target 'mrivoiceTests' do
     inherit! :search_paths

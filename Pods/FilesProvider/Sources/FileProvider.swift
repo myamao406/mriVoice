@@ -569,6 +569,72 @@ extension FileProviderReadWrite {
     }
 }
 
+/// Defines method for fetching file contents progressivly
+public protocol FileProviderReadWriteProgressive {
+    /**
+     Retreives a `Data` object with a portion contents of the file asynchronously vis contents argument of completion handler.
+     If path specifies a directory, or if some other error occurs, data will be nil.
+     
+     - Parameters:
+       - path: Path of file.
+       - progressHandler: a closure which will be called every time a new data received from server.
+         - position: Start position of returned data, indexed from zero.
+         - data: returned `Data` from server.
+       - completionHandler: a closure which will be called after receiving is completed or an error occureed.
+     - Returns: An `Progress` to get progress or cancel progress. Doesn't work on `LocalFileProvider`.
+     */
+    @discardableResult
+    func contents(path: String, progressHandler: @escaping (_ position: Int64, _ data: Data) -> Void, completionHandler: SimpleCompletionHandler) -> Progress?
+    
+    /**
+     Retreives a `Data` object with a portion contents of the file asynchronously vis contents argument of completion handler.
+     If path specifies a directory, or if some other error occurs, data will be nil.
+     
+     - Parameters:
+       - path: Path of file.
+       - responseHandler: a closure which will be called after fetching server response.
+         - response: `URLResponse` returned from server.
+       - progressHandler: a closure which will be called every time a new data received from server.
+         - position: Start position of returned data, indexed from zero.
+         - data: returned `Data` from server.
+       - completionHandler: a closure which will be called after receiving is completed or an error occureed.
+     - Returns: An `Progress` to get progress or cancel progress. Doesn't work on `LocalFileProvider`.
+     */
+    @discardableResult
+    func contents(path: String, responseHandler: ((_ response: URLResponse) -> Void)?, progressHandler: @escaping (_ position: Int64, _ data: Data) -> Void, completionHandler: SimpleCompletionHandler) -> Progress?
+    
+    /**
+     Retreives a `Data` object with a portion contents of the file asynchronously vis contents argument of completion handler.
+     If path specifies a directory, or if some other error occurs, data will be nil.
+     
+     - Parameters:
+       - path: Path of file.
+       - offset: First byte index which should be read. **Starts from 0.**
+       - length: Bytes count of data. Pass `-1` to read until the end of file.
+       - responseHandler: a closure which will be called after fetching server response.
+         - response: `URLResponse` returned from server.
+       - progressHandler: a closure which will be called every time a new data received from server.
+         - position: Start position of returned data, indexed from offset.
+         - data: returned `Data` from server.
+       - completionHandler: a closure which will be called after receiving is completed or an error occureed.
+     - Returns: An `Progress` to get progress or cancel progress. Doesn't work on `LocalFileProvider`.
+     */
+    @discardableResult
+    func contents(path: String, offset: Int64, length: Int, responseHandler: ((_ response: URLResponse) -> Void)?, progressHandler: @escaping (_ position: Int64, _ data: Data) -> Void, completionHandler: SimpleCompletionHandler) -> Progress?
+}
+
+public extension FileProviderReadWriteProgressive {
+    @discardableResult
+    public func contents(path: String, progressHandler: @escaping (_ position: Int64, _ data: Data) -> Void, completionHandler: SimpleCompletionHandler) -> Progress? {
+        return contents(path: path, offset: 0, length: -1, responseHandler: nil, progressHandler: progressHandler, completionHandler: completionHandler)
+    }
+    
+    @discardableResult
+    public func contents(path: String, responseHandler: ((_ response: URLResponse) -> Void)?, progressHandler: @escaping (_ position: Int64, _ data: Data) -> Void, completionHandler: SimpleCompletionHandler) -> Progress? {
+        return contents(path: path, offset: 0, length: -1, responseHandler: responseHandler, progressHandler: progressHandler, completionHandler: completionHandler)
+    }
+}
+
 /// Allows a file provider to notify changes occured
 public protocol FileProviderMonitor: FileProviderBasic {
     
@@ -764,27 +830,19 @@ public extension FileProviderBasic {
     
     internal func urlError(_ path: String, code: URLError.Code) -> Error {
         let fileURL = self.url(of: path)
-        var userInfo: [String: Any] = [NSURLErrorKey: fileURL,
+        let userInfo: [String: Any] = [NSURLErrorKey: fileURL,
                                        NSURLErrorFailingURLErrorKey: fileURL,
                                        NSURLErrorFailingURLStringErrorKey: fileURL.absoluteString,
                                        ]
-        let error = NSError(domain: NSURLErrorDomain, code: code.rawValue, userInfo: nil)
-        for (key, value) in error.userInfo {
-            userInfo[key] = value
-        }
         return URLError(code, userInfo: userInfo)
     }
     
     internal func cocoaError(_ path: String, code: CocoaError.Code) -> Error {
         let fileURL = self.url(of: path)
-        var userInfo: [String: Any] = [NSFilePathErrorKey: path,
+        let userInfo: [String: Any] = [NSFilePathErrorKey: path,
                                        NSURLErrorKey: fileURL,
                                        ]
-        let error = NSError(domain: NSCocoaErrorDomain, code: code.rawValue, userInfo: nil)
-        for (key, value) in error.userInfo {
-            userInfo[key] = value
-        }
-        return cocoaError(fileURL.path, code: code)
+        return CocoaError(code, userInfo: userInfo)
     }
     
     internal func NotImplemented(_ fn: String = #function, file: StaticString = #file) {
@@ -890,7 +948,11 @@ extension ExtendedFileProvider {
         let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         
         #if os(macOS)
-            #if swift(>=3.2)
+            #if swift(>=4.0)
+            let ppp = Int(NSScreen.main?.backingScaleFactor ?? 1) // fetch device is retina or not
+            #elseif swift(>=3.3)
+            let ppp = Int(NSScreen.main()?.backingScaleFactor ?? 1) // fetch device is retina or not
+            #elseif swift(>=3.2)
             let ppp = Int(NSScreen.main?.backingScaleFactor ?? 1) // fetch device is retina or not
             #else
             let ppp = Int(NSScreen.main()?.backingScaleFactor ?? 1) // fetch device is retina or not
@@ -898,15 +960,23 @@ extension ExtendedFileProvider {
             
             size.width  *= CGFloat(ppp)
             size.height *= CGFloat(ppp)
-            
-            #if swift(>=3.2)
+        
+            #if swift(>=4.0)
+            let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(size.width), pixelsHigh: Int(size.height),
+                                       bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: .calibratedRGB,
+                                       bytesPerRow: 0, bitsPerPixel: 0)
+            #elseif swift(>=3.3)
+            let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(size.width), pixelsHigh: Int(size.height),
+                                       bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: NSCalibratedRGBColorSpace,
+                                       bytesPerRow: 0, bitsPerPixel: 0)
+            #elseif swift(>=3.2)
             let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(size.width), pixelsHigh: Int(size.height),
                                        bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: .calibratedRGB,
                                        bytesPerRow: 0, bitsPerPixel: 0)
             #else
-                let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(size.width), pixelsHigh: Int(size.height),
-                                           bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: NSCalibratedRGBColorSpace,
-                                           bytesPerRow: 0, bitsPerPixel: 0)
+            let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(size.width), pixelsHigh: Int(size.height),
+                                       bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: NSCalibratedRGBColorSpace,
+                                       bytesPerRow: 0, bitsPerPixel: 0)
             #endif
             
             guard let context = NSGraphicsContext(bitmapImageRep: rep!) else {

@@ -24,15 +24,40 @@ func convertAudio(_ url: URL, outputURL: URL) {
                             kExtAudioFileProperty_FileDataFormat,
                             &thePropertySize, &srcFormat)
     
-    dstFormat.mSampleRate = 44100  //Set sample rate
+    let idx = asbds.index(where: {$0.projectNo == SELECT_PROJECT_NO})
+    
+    var tempAsbd:asbd?
+    let mBytesPerFrame:UInt32?
+    let mBytesPerPacket:UInt32?
+    if idx == nil {
+        tempAsbd = asbd(projectNo:SELECT_PROJECT_NO)
+        
+    } else {
+        tempAsbd = asbds[idx!]
+    }
+    mBytesPerFrame = tempAsbd!.bitsPerChannel / 8 * tempAsbd!.channelsPerFrame
+    mBytesPerPacket = mBytesPerFrame! * tempAsbd!.channelsPerFrame
+    
+    dstFormat.mSampleRate = tempAsbd!.sampleRate  //Set sample rate
     dstFormat.mFormatID = kAudioFormatLinearPCM
-    dstFormat.mChannelsPerFrame = 1
-    dstFormat.mBitsPerChannel = 16
-    dstFormat.mBytesPerPacket = 2 * dstFormat.mChannelsPerFrame
-    dstFormat.mBytesPerFrame = 2 * dstFormat.mChannelsPerFrame
-    dstFormat.mFramesPerPacket = 1
+    dstFormat.mChannelsPerFrame = tempAsbd!.channelsPerFrame
+    dstFormat.mBitsPerChannel = tempAsbd!.bitsPerChannel
+    dstFormat.mBytesPerPacket = mBytesPerPacket!
+    dstFormat.mBytesPerFrame = mBytesPerFrame!
+    dstFormat.mFramesPerPacket = tempAsbd!.framesPerPacket
     dstFormat.mFormatFlags = kLinearPCMFormatFlagIsPacked |
     kAudioFormatFlagIsSignedInteger
+
+    
+//    dstFormat.mSampleRate = sampleRate  //Set sample rate
+//    dstFormat.mFormatID = kAudioFormatLinearPCM
+//    dstFormat.mChannelsPerFrame = channelsPerFrame
+//    dstFormat.mBitsPerChannel = bitsPerChannel
+//    dstFormat.mBytesPerPacket = bytesPerPacket
+//    dstFormat.mBytesPerFrame = bytesPerFrame
+//    dstFormat.mFramesPerPacket = framesPerPacket
+//    dstFormat.mFormatFlags = kLinearPCMFormatFlagIsPacked |
+//    kAudioFormatFlagIsSignedInteger
     
     // Create destination file
     error = ExtAudioFileCreateWithURL(

@@ -23,4 +23,13 @@ class AsyncUtil {
             block()
         }
     }
+    
+    func dispatch_async_main(_ block: @escaping () -> ()) {
+        DispatchQueue.main.async(execute: block)
+    }
+    
+    func dispatch_async_global(_ block: @escaping () -> ()) {
+        DispatchQueue.global().async (execute: block)
+    }
+    
 }

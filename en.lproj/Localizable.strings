@@ -1,0 +1,37 @@
+/* 
+  Localizable.strings
+  mrivoice
+
+  Created by it_dev01(yamao) on 2018/08/10.
+  Copyright © 2018年 it_dev01(yamao). All rights reserved.
+*/
+
+"login" = "Sign in";
+"mail" = "E-mail address";
+"password" = "Password";
+"retake" = "Retake";
+"logout" = "Sign out";
+"version" = "Version";
+"build" = "Build";
+"error" = "Error";
+"err_msg" = "E-mail address or password is wrong.";
+"logging" = "Logging...";
+"connect_err_msg" = "Please try again in a place with good connection environment";
+"access_permission" = "Access permission setting";
+"camera_access" = "Please allow access to the camera";
+"setting" = "To set up";
+"cancel" = "Canncel";
+"done" = "Done";
+"country" = "Country";
+"gender" = "Gender";
+"location" = "Location";
+"countdown" = "Display count down";
+"male" = "male";
+"female" = "female";
+"fileCopyError" = "Failed to save the file.";
+"hotel" = "hotel";
+"airport" = "airport";
+"other" = "other";
+"bit" = "bit";
+"channel" = "channel";
+"recordedDisp" = "Recorded\nDisp";

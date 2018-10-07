@@ -8,71 +8,108 @@
 
 import UIKit
 import EZAudio
+import FirebaseAuth
+import AVFoundation
 
-class voiceRecordingViewController: UIViewController,UINavigationBarDelegate {
+class voiceRecordingViewController: UIViewController,UINavigationBarDelegate,CountDownDelegate {
 
     @IBOutlet weak var returnBarButton: UIBarButtonItem!
     @IBOutlet weak var navBar: UINavigationBar!
-    @IBOutlet weak var stopButton: UIButton!
+    @IBOutlet weak var micButton: UIButton!
     @IBOutlet weak var textSizeButton: UIButton!
     @IBOutlet weak var voiceTextView: UITextView!
     @IBOutlet weak var timerLabel: UILabel!
-    @IBOutlet weak var plotView: EZAudioPlotGL!
+    @IBOutlet weak var plotView: UIView!
     @IBOutlet weak var ageLabel: UILabel!
     @IBOutlet weak var genderLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var createdLabel: UILabel!
     @IBOutlet weak var deadLineLabel: UILabel!
-
+    @IBOutlet weak var beforeRecLabel: UILabel!
+    @IBOutlet weak var onAirLabel: UILabel!
     
     // The microphone component
     var microphone: EZMicrophone?
-    
     // The recorder component
     var recorder: EZRecorder?
-
-    var voice_time = 0
+    var audioPlot: EZAudioPlot?
     var startTime = Date()
-    
     var contentOffset = CGPoint.zero //init
+    var view_flag = true
+    var ageID = 0
+    var genderID = 0
+    
+    var countDownView:CountDownView = CountDownView(frame: CGRect(x: 0, y: 0, width: 150, height: 150))
+    
+    var baseView:UIView!
+    
+    var isOnAir: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         navBar.delegate = self
         navBar.barTintColor = vColor.titleBlueColor
         
+        countDownView.delegate = self
+        
         // 戻るボタン
         returnBarButton.image = FontAwesome.returnImage()
-        // 終了ボタン
-        stopButton.setImage(FontAwesome.pauseImage(), for: UIControlState())
-        
+        // マイクボタン
+        micButton.setImage(FontAwesome.micImage(), for: UIControlState())
         // 背景色
-        stopButton.backgroundColor = vColor.bargainsYellowColor
+        micButton.backgroundColor = vColor.silverColoer
         // 角丸
-        stopButton.layer.cornerRadius = stopButton.frame.height / 2
+        micButton.layer.cornerRadius = micButton.frame.height / 2
         
         // テキストサイズ変更ボタン
         changeText.SizeColor(size: text_size_mode,btn:textSizeButton)
         voiceTextView.font = UIFont.systemFont(ofSize: voice_text_size[text_size_mode])
         
+        beforeRecLabel.backgroundColor = vColor.bargainsYellowColor
+        beforeRecLabel.textColor = UIColor.white
+        onAirLabel.backgroundColor = UIColor.white
+        onAirLabel.textColor = UIColor.black
+        
+        //baseView作成
+        let myBoundSize: CGSize = UIScreen.main.bounds.size
+        self.baseView = UIView(frame: CGRect(x: 0, y: 0, width: myBoundSize.width, height: myBoundSize.height))
+        //画面centerに
+        self.baseView.center = self.view.center
+        self.baseView.alpha = 0.5
+        
         setContents()
+        
+        checkMicrophoneAuthorizationStatus()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        print(#function)
-        // Create an instance of the microphone and tell it to use this view controller instance as the delegate
-        microphone = EZMicrophone(microphoneDelegate: self)
+   
+        var iconImage : UIImage!
+        if isOnAir {
+            // 録音終了ボタン
+            iconImage = FontAwesome.pauseImage()
+        } else {
+            // マイクボタン
+            iconImage = FontAwesome.micImage()
+        }
+        micButton.setImage(iconImage, for: UIControlState())
 
-        self.record()
+//        if view_flag {
+//            view_flag = false
+//            print(#function)
+//            // Create an instance of the microphone and tell it to use this view controller instance as the delegate
+//            if microphone?.delegate == nil {
+//                print(#function + ": microphone nil")
+//                microphone = EZMicrophone(microphoneDelegate: self)
+//            }
+//            self.record()
+//        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -105,6 +142,10 @@ class voiceRecordingViewController: UIViewController,UINavigationBarDelegate {
         return .lightContent
     }
 
+    func setPlotView() {
+        
+    }
+    
     func setContents() {
         ageLabel.text = ""
         genderLabel.text = ""
@@ -113,15 +154,23 @@ class voiceRecordingViewController: UIViewController,UINavigationBarDelegate {
         deadLineLabel.text = ""
         voiceTextView.text = ""
         
-        let contents = voiceLists.filter({$0.vID == SELECT_VOICE_NO})
-        if contents.count > 0 {
-            for content in contents {
-                ageLabel.text = listLabel.ageLabel[content.Age]
-                genderLabel.text = listLabel.genderLabel[content.Gender]
-                titleLabel.text = content.Title
-                createdLabel.text = content.Created
-                deadLineLabel.text = content.Deadline
-                voiceTextView.text = content.contents
+        for vList in voiceLists {
+            let contents = vList.filter({$0.vID == SELECT_VOICE_NO && $0.projectID == SELECT_PROJECT_NO})
+            if contents.count > 0 {
+                for content in contents {
+                    ageID = content.Age
+                    genderID = content.Gender
+//                    ageLabel.text = listLabel.ageLabel[ageID]
+//                    genderLabel.text = listLabel.genderLabel[genderID]
+                    ageLabel.text = getLabel.age(ageID: ageID)
+                    genderLabel.text = getLabel.gender(genderID: genderID)
+
+                    titleLabel.text = content.Title
+                    createdLabel.text = content.Created
+                    deadLineLabel.text = content.Deadline
+                    voiceTextView.text = content.contents
+                    break;
+                }
             }
         }
     }
@@ -145,16 +194,44 @@ class voiceRecordingViewController: UIViewController,UINavigationBarDelegate {
         voiceTextView.font = UIFont.systemFont(ofSize: voice_text_size[text_size_mode])
     }
     
-    @IBAction func stopButtonTap(_ sender: Any) {
-        // 録音終了
-        plotView?.backgroundColor = UIColor.clear
-        microphone?.stopFetchingAudio()
-        // Close the audio file
-        if let recorder = recorder {
-            recorder.closeAudioFile()
+    @IBAction func micButtonTap(_ sender: Any) {
+        // 録音しているとき
+        if isOnAir {
+            isOnAir = !isOnAir
+            // 録音終了
+            
+            audioPlot?.removeFromSuperview()
+            microphone?.stopFetchingAudio()
+            // Close the audio file
+            if let recorder = recorder {
+                recorder.closeAudioFile()
+            }
+            if voice_timer.isValid {
+                voice_timer.invalidate()
+                timerLabel.text = ""
+            }
+            self.performSegue(withIdentifier: "toVoiceCheckViewSegue",sender: nil)
+            
+        } else {
+            isOnAir = !isOnAir
+            
+            onAirLabel.backgroundColor = vColor.bargainsYellowColor
+            onAirLabel.textColor = UIColor.white
+            beforeRecLabel.backgroundColor = UIColor.white
+            beforeRecLabel.textColor = UIColor.black
+
+            if isCountDown {
+                countDownView.center = CGPoint(x: view.bounds.size.width / 2.0, y: view.bounds.height / 2.0)
+                view.addSubview(baseView)
+                baseView.addSubview(countDownView)
+                countDownView.start(max: 3)
+
+            } else {
+                self.onRec()
+            }
+
         }
         
-        self.performSegue(withIdentifier: "toVoiceCheckViewSegue",sender: nil)
     }
     
     // 録音するファイルのパスを取得(録音時、再生時に参照)
@@ -167,9 +244,16 @@ class voiceRecordingViewController: UIViewController,UINavigationBarDelegate {
         dateFormatter.locale = Locale(identifier: "ja_JP") // ロケールの設定
         dateFormatter.dateFormat = "yyyyMMddHHmmssSSS"
         
-        let fileName = dateFormatter.string(from: now) + ".m4a"
-//        let fileName = dateFormatter.string(from: now) + ".wav"
-        AudioFileName = dirURL.appendingPathComponent(fileName)
+        let usrID = uid == "" ? "???" : uid
+        let genderStr = gender == "" ? "m" : gender
+        let countryStr = country == "" ? "jp" : country
+        
+        let contentID = String(format: "%08d", SELECT_VOICE_NO)
+        let ageIDs = String(format: "%02d", ageID)
+        let genderIDs = String(format: "%02d", genderID)
+        
+        let fileName = usrID + "_" + contentID + "_" + ageIDs + "_" + genderIDs + "_" + genderStr + "_" + countryStr + "_ip_" + dateFormatter.string(from: now) + ".aiff"
+        AudioFileName =  dirURL.appendingPathComponent(fileName)
         print(#function,dirURL.appendingPathComponent(fileName))
         return AudioFileName!
     }
@@ -179,24 +263,71 @@ class voiceRecordingViewController: UIViewController,UINavigationBarDelegate {
     }
     
     func record(){
-        
         // Create the recorder
-        plotView.clear()
+        audioPlot?.clear()
         guard let microphone = microphone else {
+            print("return")
             return
         }
+        self.audioPlot = EZAudioPlot(frame: plotView.frame)
+        self.audioPlot?.backgroundColor = UIColor.clear
+        self.audioPlot?.color = UIColor.white
+        self.audioPlot?.plotType = .rolling
+        self.audioPlot?.gain = 5.0
+        self.audioPlot?.shouldFill = true
+        self.audioPlot?.shouldMirror = true
         
-        plotView?.backgroundColor = UIColor.clear
-        plotView?.color = UIColor.orange
-        plotView?.plotType = .rolling
-        plotView?.gain = 5.0
-        plotView?.shouldFill = true
-        plotView?.shouldMirror = true
+        //Viewに追加
+        self.plotView.addSubview(audioPlot!)
         
+        let idx = asbds.index(where: {$0.projectNo == SELECT_PROJECT_NO})
+        
+        var tempAsbd:asbd?
+        var mBytesPerFrame:UInt32?
+        var mBytesPerPacket:UInt32?
+        if idx == nil {
+            tempAsbd = asbd(projectNo:SELECT_PROJECT_NO)
+            
+        } else {
+            tempAsbd = asbds[idx!]
+        }
+        mBytesPerFrame = tempAsbd!.bitsPerChannel / 8 * tempAsbd!.channelsPerFrame
+        mBytesPerPacket = mBytesPerFrame! * tempAsbd!.channelsPerFrame
+        
+        let fType = tempAsbd?.getFileType(ext: tempAsbd!.ext)
+        
+        let lasbd = AudioStreamBasicDescription(
+            mSampleRate: tempAsbd!.sampleRate,
+            mFormatID: fType!.formatID,
+            mFormatFlags: AudioFormatFlags(kAudioFormatFlagIsPacked | kAudioFormatFlagIsSignedInteger),
+            mBytesPerPacket: mBytesPerPacket!,
+            mFramesPerPacket: tempAsbd!.framesPerPacket,
+            mBytesPerFrame: mBytesPerFrame!,
+            mChannelsPerFrame: tempAsbd!.channelsPerFrame,
+            mBitsPerChannel: tempAsbd!.bitsPerChannel,
+            mReserved: 0)
+
+//        let asbd = AudioStreamBasicDescription(
+//            mSampleRate: sampleRate,
+//            mFormatID: kAudioFormatLinearPCM,
+//            mFormatFlags: AudioFormatFlags(kAudioFormatFlagIsPacked | kAudioFormatFlagIsSignedInteger),
+//            mBytesPerPacket: bytesPerPacket,
+//            mFramesPerPacket: framesPerPacket,
+//            mBytesPerFrame: bytesPerFrame,
+//            mChannelsPerFrame: channelsPerFrame,
+//            mBitsPerChannel: bitsPerChannel,
+//            mReserved: 0)
+
+        microphone.setAudioStreamBasicDescription(lasbd)
+
         microphone.startFetchingAudio()
+        print(microphone.audioStreamBasicDescription().mSampleRate)
         recorder = EZRecorder(url: self.documentFilePath(),
                               clientFormat: (microphone.audioStreamBasicDescription()),
-                              fileType: .M4A)
+                              fileType: fType!.fileType )
+//        recorder = EZRecorder(url: self.documentFilePath(),
+//                              clientFormat: (microphone.audioStreamBasicDescription()),
+//                              fileType: EZRecorderFileType.WAV )
 
         self.updating()
     }
@@ -232,6 +363,61 @@ class voiceRecordingViewController: UIViewController,UINavigationBarDelegate {
         
     }
 
+    // MARK: - CountDownView
+    
+    func didCount(count: Int) {
+        print("didiCount(\(count))")
+        TapSound.buttonTap(countDownchime.sFile , type: countDownchime.sType)
+    }
+    
+    func didFinish() {
+        print("didFinish")
+        self.baseView.removeFromSuperview()
+        
+        onRec()
+        
+    }
+    
+    func onRec() {
+        // 録音終了ボタン
+        micButton.setImage(FontAwesome.pauseImage(), for: UIControlState())
+        
+        print(#function)
+        // Create an instance of the microphone and tell it to use this view controller instance as the delegate
+        if microphone?.delegate == nil {
+            print(#function + ": microphone nil")
+            microphone = EZMicrophone(microphoneDelegate: self)
+        }
+        self.record()
+    }
+    
+//    func checkMicrophoneAuthorizationStatus() {
+//        let status = AVCaptureDevice.authorizationStatus(for: AVMediaType.audio)
+//
+//        switch (status) {
+//        case .authorized:
+//            // ユーザーがアクセス許可を承認
+//            print("ユーザーがアクセス許可を承認")
+//
+//            break;
+//        case .restricted:
+//            // まだアクセスが許可されていない
+//            print("まだアクセスが許可されていない")
+//            AVCaptureDevice.requestAccess(for: AVMediaType.audio, completionHandler: {(granted: Bool) in})
+//            break;
+//        case .notDetermined:
+//            // ユーザーがまだ選択を行っていない
+//            print("ユーザーがまだ選択を行っていない")
+//            AVCaptureDevice.requestAccess(for: AVMediaType.audio, completionHandler: {(granted: Bool) in})
+//            break;
+//        case .denied:
+//            // ユーザーがデータへアクセスすることを拒否
+//            print("ユーザーがデータへアクセスすることを拒否")
+//            AVCaptureDevice.requestAccess(for: AVMediaType.audio, completionHandler: {(granted: Bool) in})
+//            break;
+//        }
+//    }
+    
 }
 // MARK: EZMicrophoneDelegate
 extension voiceRecordingViewController: EZMicrophoneDelegate {
@@ -240,7 +426,8 @@ extension voiceRecordingViewController: EZMicrophoneDelegate {
                     withBufferSize bufferSize: UInt32,
                     withNumberOfChannels numberOfChannels: UInt32) {
         DispatchQueue.main.async(execute: {
-            self.plotView.updateBuffer(buffer.pointee, withBufferSize: bufferSize)
+//            self.audioPlot?.updateBuffer(buffer.pointee, withBufferSize: bufferSize)
+            self.audioPlot?.updateBuffer(buffer[0], withBufferSize: bufferSize)
         })
     }
     

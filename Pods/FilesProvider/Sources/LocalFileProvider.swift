@@ -14,7 +14,7 @@ import Foundation
  
  it uses `FileManager` foundation class with some additions like searching and reading a portion of file.
  */
-open class LocalFileProvider: FileProvider, FileProviderMonitor {
+open class LocalFileProvider: NSObject, FileProvider, FileProviderMonitor {
     open class var type: String { return "Local" }
     open fileprivate(set) var baseURL: URL?
     open var dispatch_queue: DispatchQueue
@@ -114,12 +114,14 @@ open class LocalFileProvider: FileProvider, FileProviderMonitor {
         operation_queue = OperationQueue()
         operation_queue.name = "\(queueLabel).Operation"
         
+        super.init()
+        
         fileProviderManagerDelegate = LocalFileProviderManagerDelegate(provider: self)
         opFileManager.delegate = fileProviderManagerDelegate
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
-        guard let baseURL = aDecoder.decodeObject(forKey: "baseURL") as? URL else {
+        guard let baseURL = aDecoder.decodeObject(of: NSURL.self, forKey: "baseURL") as URL? else {
             return nil
         }
         self.init(baseURL: baseURL)
@@ -158,7 +160,7 @@ open class LocalFileProvider: FileProvider, FileProviderMonitor {
         dispatch_queue.async {
             do {
                 let contents = try self.fileManager.contentsOfDirectory(at: self.url(of: path), includingPropertiesForKeys: nil, options: .skipsSubdirectoryDescendants)
-                let filesAttributes = contents.flatMap({ (fileURL) -> LocalFileObject? in
+                let filesAttributes = contents.compactMap({ (fileURL) -> LocalFileObject? in
                     let path = self.relativePathOf(url: fileURL)
                     return LocalFileObject(fileWithPath: path, relativeTo: self.baseURL)
                 })
@@ -580,16 +582,12 @@ open class LocalFileProvider: FileProvider, FileProviderMonitor {
         return self.doOperation(operation, data: data ?? Data(), atomically: atomically, completionHandler: completionHandler)
     }
     
-    fileprivate var monitors = [LocalFolderMonitor]()
+    fileprivate var monitors = [LocalFileMonitor]()
     
     open func registerNotifcation(path: String, eventHandler: @escaping (() -> Void)) {
         self.unregisterNotifcation(path: path)
-        let dirurl = self.url(of: path)
-        let isdir = (try? dirurl.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory ?? false
-        if !isdir {
-            return
-        }
-        let monitor = LocalFolderMonitor(url: dirurl) {
+        let url = self.url(of: path)
+        let monitor = LocalFileMonitor(url: url) {
             eventHandler()
         }
         monitor.start()
@@ -597,7 +595,7 @@ open class LocalFileProvider: FileProvider, FileProviderMonitor {
     }
     
     open func unregisterNotifcation(path: String) {
-        var removedMonitor: LocalFolderMonitor?
+        var removedMonitor: LocalFileMonitor?
         for (i, monitor) in monitors.enumerated() {
             if self.relativePathOf(url: monitor.url) == path {
                 removedMonitor = monitors.remove(at: i)

@@ -410,12 +410,6 @@ internal extension Data {
         guard self.count >= start + length else { return nil }
         return String(data: self.subdata(in: start..<start+length), encoding: encoding)
     }
-    
-    static func mapMemory<T, U>(from: T) -> U? {
-        guard MemoryLayout<T>.size >= MemoryLayout<U>.size else { return nil }
-        let data = Data(value: from)
-        return data.scanValue()
-    }
 }
 
 internal extension String {
@@ -447,14 +441,14 @@ internal extension String {
     }
 }
 
-#if swift(>=4.0)
-#else
-extension String {
-    var count: Int {
-        return self.characters.count
+internal extension NSNumber {
+    internal func format(precision: Int = 2, style: NumberFormatter.Style = .decimal) -> String {
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = precision
+        formatter.numberStyle = style
+        return formatter.string(from: self)!
     }
 }
-#endif
 
 internal extension TimeInterval {
     internal var formatshort: String {
@@ -592,3 +586,31 @@ func hasSuffix(_ suffix: String) -> (_ value: String) -> Bool {
         value.hasSuffix(suffix)
     }
 }
+
+// Legacy Swift versions support
+
+#if swift(>=4.0)
+#else
+extension String {
+    var count: Int {
+        return self.characters.count
+    }
+}
+#endif
+
+#if swift(>=4.1)
+#else
+extension Array {
+    func compactMap<ElementOfResult>(_ transform: (Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult] {
+        return try self.flatMap(transform)
+    }
+}
+
+extension ArraySlice {
+    func compactMap<ElementOfResult>(_ transform: (Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult] {
+        return try self.flatMap(transform)
+    }
+}
+#endif
+
+

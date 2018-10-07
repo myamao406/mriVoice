@@ -9,12 +9,12 @@
 import UIKit
 import EZAudio
 import GradientCircularProgress
-//import Alamofire
 import FilesProvider
+import Toast_Swift
+import FirebaseFirestore
 
 class voiceCheckViewController: UIViewController,UINavigationBarDelegate,FileProviderDelegate {
 
-    @IBOutlet weak var returnBarButton: UIBarButtonItem!
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var okButton: UIButton!
     @IBOutlet weak var redoButton: UIButton!
@@ -22,6 +22,13 @@ class voiceCheckViewController: UIViewController,UINavigationBarDelegate,FilePro
     @IBOutlet weak var audioTimeLabel: UILabel!
     @IBOutlet weak var currentTimeLabel: UILabel!
     @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var bitLabel: UILabel!
+    @IBOutlet weak var bitUnitLabel: UILabel!
+    @IBOutlet weak var rateLabel: UILabel!
+    @IBOutlet weak var rateUnitLabel: UILabel!
+    @IBOutlet weak var channelLabel: UILabel!
+    @IBOutlet weak var channelUnitLabel: UILabel!
     
     // An EZAudioFile that will be used to load the audio file at the file path specified
     var audioFile: EZAudioFile?
@@ -41,24 +48,44 @@ class voiceCheckViewController: UIViewController,UINavigationBarDelegate,FilePro
     
     var isPlaying: Bool?
     
+    var defaultStore : Firestore!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         navBar.delegate = self
         navBar.barTintColor = vColor.titleBlueColor
         
-        // 戻るボタン
-        returnBarButton.image = FontAwesome.returnImage()
+        defaultStore = Firestore.firestore()
+        
+        let session = AVAudioSession.sharedInstance()
+        
         // OKボタン
         okButton.setImage(FontAwesome.checkImage() , for: UIControlState())
         // やり直しボタン
-//        var setImage = FontAwesome.redoImage().flipHorizontal()
-//        setImage = imageRotatedByDegrees(oldImage: setImage,deg: 30)
+        redoButton.setTitle(NSLocalizedString("retake", comment: ""), for: .normal)
         redoButton.setImage(FontAwesome.redoImage(), for: UIControlState())
         
         // プレイ・ポーズボタン
         playButton.setImage(FontAwesome.pauseImage2(), for: UIControlState())
         isPlaying = true
+        
+        let idx = asbds.index(where: {$0.projectNo == SELECT_PROJECT_NO})
+        
+        var tempAsbd:asbd?
+        if idx == nil {
+            tempAsbd = asbd(projectNo:SELECT_PROJECT_NO)
+        } else {
+            tempAsbd = asbds[idx!]
+        }
+        
+        bitLabel.text = String(describing: tempAsbd!.bitsPerChannel)
+        bitUnitLabel.text = NSLocalizedString("bit", comment: "")
+        
+        rateLabel.text = String(tempAsbd!.sampleRate / 1000)
+        
+        channelLabel.text = String(describing:tempAsbd!.channelsPerFrame)
+        channelUnitLabel.text = NSLocalizedString("channel", comment: "")
         
         // データアップロード前準備
         let credential = URLCredential(user: username, password: password, persistence: .permanent)
@@ -68,6 +95,15 @@ class voiceCheckViewController: UIViewController,UINavigationBarDelegate,FilePro
         // Create the audio player
         player = EZAudioPlayer(delegate: self)
         player?.shouldLoop = false
+        
+        //
+        // Override the output to the speaker
+        //
+        do {
+            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
+        } catch let error as NSError {
+            print("Error overriding output to the speaker: \(error.localizedDescription)")
+        }
         
         // Listen for EZAudioPlayer notifications
         setupNotifications()
@@ -104,7 +140,19 @@ class voiceCheckViewController: UIViewController,UINavigationBarDelegate,FilePro
                                             style: MyStyle())
         progressCircleView.addSubview(progressView!)
         
+        v = 0.0
         startProgressBasic()
+        
+        titleLabel.text = ""
+        for vList in voiceLists {
+            let contents = vList.filter({$0.vID == SELECT_VOICE_NO && $0.projectID == SELECT_PROJECT_NO})
+            if contents.count > 0 {
+                for content in contents {
+                    titleLabel.text = content.Title
+                    break;
+                }
+            }
+        }
         
     }
     
@@ -156,8 +204,10 @@ class voiceCheckViewController: UIViewController,UINavigationBarDelegate,FilePro
     }
     
     func startProgressBasic() {
-        v = audioFileframe!
-        
+        if v <= 0.0 {
+            v = audioFileframe!
+        }
+//        v = audioFileframe!
         timer = Timer.scheduledTimer(
             timeInterval: 0.01,
             target: self,
@@ -182,6 +232,7 @@ class voiceCheckViewController: UIViewController,UINavigationBarDelegate,FilePro
             self.isPlaying = false
             // プレイ・ポーズボタン
             playButton.setImage(FontAwesome.playImage(), for: UIControlState())
+            v = 0.0
             return
         }
         
@@ -189,20 +240,35 @@ class voiceCheckViewController: UIViewController,UINavigationBarDelegate,FilePro
     }
     
     @IBAction func okButtonTap(_ sender: Any) {
-        var wavAudioURL:URL?
+        // クルクルスタート
+        mriProgress.start()
         
-        let u1 = AudioFileName!.deletingPathExtension()
-        wavAudioURL = u1.appendingPathExtension("wav")
+        // フォルダが存在するか確認
+        webdav?.contentsOfDirectory(path: ownCloudSaveFolder + SELECT_PROJECT_NO + "/", completionHandler: {
+            contents, error in
+            if let error = error {
+                print("フォルダがありません:\(error.localizedDescription)")
+                // フォルダ作成
+                self.webdav?.create(folder: SELECT_PROJECT_NO, at: ownCloudSaveFolder, completionHandler: { error in
+                    if let error = error {
+                        print("フォルダ作成に失敗しました:\(error.localizedDescription)")
+                        self.dispatch_async_main{
+                            // クルクルストップ
+                            mriProgress.stop()
+                            self.view.makeToast(NSLocalizedString("fileCopyError", comment: ""), duration: 3.0, position: .top)
 
-        convertAudio(AudioFileName!, outputURL: wavAudioURL!)
-        let localURL = wavAudioURL!
+                            self.button_Control(true)
+                        }
+                    } else {
+                        print("success")
+                        self.wavFileCopy()
+                    }
+                })
+            } else {
+                self.wavFileCopy()
 
-//        let localURL = AudioFileName!
-        let localFileName = NSString(string:localURL.path).lastPathComponent
-        let remotePath = "/Documents/" + (localFileName as String)
-        
-        _ = webdav?.copyItem(localFile: localURL, to: remotePath, completionHandler: nil)
-        
+            }
+        })
         print("OK END")
     }
     
@@ -211,13 +277,103 @@ class voiceCheckViewController: UIViewController,UINavigationBarDelegate,FilePro
         self.playbtn()
     }
     
+    func wavFileCopy() {
+        var wavAudioURL:URL?
+        
+        let idx = asbds.index(where: {$0.projectNo == SELECT_PROJECT_NO})
+        var tempAsbd:asbd?
+        if idx == nil {
+            tempAsbd = asbd(projectNo:SELECT_PROJECT_NO)
+        } else {
+            tempAsbd = asbds[idx!]
+        }
+        
+        let u1 = AudioFileName!.deletingPathExtension()
+        wavAudioURL = u1.appendingPathExtension(tempAsbd!.ext)
+
+        if tempAsbd!.ext == "wav" {
+            convertAudio(AudioFileName!, outputURL: wavAudioURL!)
+
+        }
+        let localURL = wavAudioURL!
+        
+        let localFileName = NSString(string:localURL.path).lastPathComponent
+        let remotePath = ownCloudSaveFolder + SELECT_PROJECT_NO + "/" + (localFileName as String)
+//        let remotePath = ownCloudSaveFolder + "123/" + (localFileName as String)
+        
+        webdav?.copyItem(localFile: localURL, to: remotePath, completionHandler: {error in
+            if let error = error {
+                print("ファイルコピー\(error.localizedDescription)")
+                self.dispatch_async_main{
+                    // クルクルストップ
+                    mriProgress.stop()
+                    
+                    self.view.makeToast(NSLocalizedString("fileCopyError", comment: ""), duration: 3.0, position: .top)
+                    //                self.ActivityIndicator.stopAnimating()
+                    self.button_Control(true)
+                }
+            } else {
+                print("copy success")
+                
+                // 収録フラグを立てる
+                for (iSection,voiceList) in voiceLists.enumerated() {
+                    let voiceListRow = voiceList.index(where: {$0.projectID == SELECT_PROJECT_NO && $0.vID == SELECT_VOICE_NO})
+                    
+                    if voiceListRow != nil {
+                        voiceLists[iSection][voiceListRow!].isRecord = true
+                    }
+                }
+                
+                
+                let iRow = voiceRecords.index(where: {$0.projectID == SELECT_PROJECT_NO && $0.vID == SELECT_VOICE_NO})
+                if iRow == nil {
+                    let addData = voiceIsRecord(projectID: SELECT_PROJECT_NO, vID: SELECT_VOICE_NO)
+                    voiceRecords.append(addData)
+                    
+                    var saveVID:[Int]? = []
+                    let vRecs = voiceRecords.filter({$0.projectID == SELECT_PROJECT_NO})
+                    
+                    if vRecs.count > 0 {
+                        for vRec in vRecs {
+                            saveVID!.append(vRec.vID)
+                        }
+                        // データを保存する。
+                        
+                        self.defaultStore.collection("users").document(uid).collection("projects").document(SELECT_PROJECT_NO).updateData([
+                            "isRecords": saveVID!
+                        ]){ err in
+                            if let err = err {
+                                print("Error writing document: \(err)")
+                            } else {
+                                print("Document successfully written!")
+                            }
+                        }
+
+                    }
+                }
+                
+                self.dispatch_async_main {
+                    // クルクルストップ
+                    mriProgress.stop()
+//                self.ActivityIndicator.stopAnimating()
+                    self.button_Control(true)
+                    self.performSegue(withIdentifier: "toVoiceListViewSegue",sender: nil)
+                }
+            }
+        })
+    }
     
     // MARK: - Navigation
     func fileproviderSucceed(_ fileProvider: FileProviderOperations, operation: FileOperationType) {
         switch operation {
         case .copy(source: let source, destination: let dest):
             print("\(source) copied to \(dest).")
-            self.performSegue(withIdentifier: "toVoiceListViewSegue",sender: nil)
+            
+//            self.performSegue(withIdentifier: "toVoiceListViewSegue",sender: nil)
+//            // クルクルストップ
+//            ActivityIndicator.stopAnimating()
+//            button_Control(true)
+//            GradientCircularProgress().dismiss()
         case .remove(path: let path):
             print("\(path) has been deleted.")
         default:
@@ -255,6 +411,8 @@ class voiceCheckViewController: UIViewController,UINavigationBarDelegate,FilePro
         default:
             break
         }
+        
+        
     }
     
     func playbtn() {
@@ -274,10 +432,26 @@ class voiceCheckViewController: UIViewController,UINavigationBarDelegate,FilePro
     }
     
     @IBAction func redoButtonTap(_ sender: Any) {
-        self.performSegue(withIdentifier: "toVoiceRecPreparationViewSegue",sender: nil)
+        self.performSegue(withIdentifier: "toVoiceRecordingViewSegue",sender: nil)
     }
     
+    func button_Control(_ On_Off:Bool){
+        
+        // OKボタン
+        okButton.isEnabled = On_Off
+        // やり直しボタン
+        redoButton.isEnabled = On_Off
+        // プレイ・ポーズボタン
+        playButton.isEnabled = On_Off
+    }
     
+    func dispatch_async_main(_ block: @escaping () -> ()) {
+        DispatchQueue.main.async(execute: block)
+    }
+    
+    func dispatch_async_global(_ block: @escaping () -> ()) {
+        DispatchQueue.global().async (execute: block)
+    }
 }
 
 // MARK: EZAudioPlayerDelegate

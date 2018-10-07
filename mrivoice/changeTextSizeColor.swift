@@ -20,4 +20,5 @@ open class changeText {
         
         btn.setAttributedTitle(attrText, for: .normal)
     }
+    
 }

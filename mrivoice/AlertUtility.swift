@@ -65,12 +65,13 @@ struct AlertUtility
      - parameter viewController:アラートを表示するViewController
      */
     static func showErrorAlert(
+        title: String,
         message: String,
         okButtonTitle: String = NSLocalizedString("okButtonTitle", comment: "okButtonTitle"),
         okButtonHandler: ((UIAlertAction) -> Void)? = nil,
         viewController: UIViewController) {
         self.showAlert(
-            title: "エラー",
+            title: title,
             message: message,
             okButtonTitle: okButtonTitle,
             okButtonHandler: okButtonHandler,
@@ -82,7 +83,7 @@ struct AlertUtility
             return
         }
         let title: String = error.localizedDescription
-        let message: String = error.localizedRecoverySuggestion ?? "接続環境の良いところで再度お試しください"
-        self.showErrorAlert(message: message, okButtonTitle: title, viewController: viewController)
+        let message: String = error.localizedRecoverySuggestion ?? NSLocalizedString("connect_err_msg", comment: "")
+        self.showErrorAlert(title: NSLocalizedString("error", comment: ""),message: message, okButtonTitle: title, viewController: viewController)
     }
 }
