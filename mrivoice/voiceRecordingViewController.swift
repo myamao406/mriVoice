@@ -56,7 +56,7 @@ class voiceRecordingViewController: UIViewController,UINavigationBarDelegate,Cou
         // 戻るボタン
         returnBarButton.image = FontAwesome.returnImage()
         // マイクボタン
-        micButton.setImage(FontAwesome.micImage(), for: UIControlState())
+        micButton.setImage(FontAwesome.micImage(), for: UIControl.State())
         // 背景色
         micButton.backgroundColor = vColor.silverColoer
         // 角丸
@@ -98,7 +98,7 @@ class voiceRecordingViewController: UIViewController,UINavigationBarDelegate,Cou
             // マイクボタン
             iconImage = FontAwesome.micImage()
         }
-        micButton.setImage(iconImage, for: UIControlState())
+        micButton.setImage(iconImage, for: UIControl.State())
 
 //        if view_flag {
 //            view_flag = false
@@ -338,7 +338,7 @@ class voiceRecordingViewController: UIViewController,UINavigationBarDelegate,Cou
             voice_timer.invalidate()
         }
         
-        voice_timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerCounter), userInfo: nil, repeats: true)
+        voice_timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.timerCounter), userInfo: nil, repeats: true)
         startTime = Date()
 //        voice_time += 1
         
@@ -353,13 +353,20 @@ class voiceRecordingViewController: UIViewController,UINavigationBarDelegate,Cou
         let minute = (Int)(fmod((currentTime/60), 60))
         // currentTime/60 の余り
         let second = (Int)(fmod(currentTime, 60))
+        // floor 切り捨て、小数点以下を取り出して *100
+        let msec = (Int)((currentTime - floor(currentTime))*100)
         
         // %02d： ２桁表示、0で埋める
         let sHour = String(format:"%02d", hour)
         let sMinute = String(format:"%02d", minute)
         let sSecond = String(format:"%02d", second)
+        let sMsec = String(format:"%02d", msec)
         
-        timerLabel.text = sHour + ":" + sMinute + ":" + sSecond
+        timerLabel.text = sHour + ":" + sMinute + ":" + sSecond + "." + sMsec
+        
+        if second >= 5 {
+            micButtonTap(micButton)
+        }
         
     }
 
@@ -380,7 +387,7 @@ class voiceRecordingViewController: UIViewController,UINavigationBarDelegate,Cou
     
     func onRec() {
         // 録音終了ボタン
-        micButton.setImage(FontAwesome.pauseImage(), for: UIControlState())
+        micButton.setImage(FontAwesome.pauseImage(), for: UIControl.State())
         
         print(#function)
         // Create an instance of the microphone and tell it to use this view controller instance as the delegate

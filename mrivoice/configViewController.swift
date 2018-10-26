@@ -92,7 +92,7 @@ class configViewController: UIViewController,UITableViewDelegate,UITableViewData
         
         cell.configLabel.text = cellData.menuTitle
         // セルの選択可能にする
-        cell.selectionStyle = UITableViewCellSelectionStyle.default
+        cell.selectionStyle = UITableViewCell.SelectionStyle.default
         cell.configValue1.isHidden = true
         cell.configValue2.isHidden = true
         cell.configSwitch.isHidden = true
@@ -120,12 +120,12 @@ class configViewController: UIViewController,UITableViewDelegate,UITableViewData
                 }
             }
             // セルが選択された時の背景色を消す
-            cell.selectionStyle = UITableViewCellSelectionStyle.none
+            cell.selectionStyle = UITableViewCell.SelectionStyle.none
             break
         case "gender":
             print(gender)
             // セルの選択不可にする
-            cell.selectionStyle = UITableViewCellSelectionStyle.none
+            cell.selectionStyle = UITableViewCell.SelectionStyle.none
             cell.genderSegument.isHidden = false
             cell.genderSegument.setTitle(NSLocalizedString("male", comment: ""), forSegmentAt: 0)
             cell.genderSegument.setTitle(NSLocalizedString("female", comment: ""), forSegmentAt: 1)
@@ -136,7 +136,7 @@ class configViewController: UIViewController,UITableViewDelegate,UITableViewData
         case "countdown":
             print(isCountDown)
             // セルの選択不可にする
-            cell.selectionStyle = UITableViewCellSelectionStyle.none
+            cell.selectionStyle = UITableViewCell.SelectionStyle.none
             cell.configSwitch.isHidden = false
 
             cell.configSwitch.isOn = isCountDown
@@ -146,7 +146,7 @@ class configViewController: UIViewController,UITableViewDelegate,UITableViewData
         case "location":
             print(isCountDown)
             // セルの選択不可にする
-            cell.selectionStyle = UITableViewCellSelectionStyle.none
+            cell.selectionStyle = UITableViewCell.SelectionStyle.none
             cell.locationLabel.isHidden = false
             let locationIDX = locations.index(where:{($0 == location)})
             if locationIDX != nil {
@@ -155,7 +155,7 @@ class configViewController: UIViewController,UITableViewDelegate,UITableViewData
                 cell.locationLabel.text = location
             }
             // セルが選択された時の背景色を消す
-            cell.selectionStyle = UITableViewCellSelectionStyle.none
+            cell.selectionStyle = UITableViewCell.SelectionStyle.none
             break
         default:
             break

@@ -13,10 +13,10 @@ open class changeText {
         // テキストサイズ変更ボタン
         let attrText = NSMutableAttributedString(attributedString: btn.attributedTitle(for: .normal)!)
         
-        attrText.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.darkGray, range: NSMakeRange(0, 3))
+        attrText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.darkGray, range: NSMakeRange(0, 3))
         btn.setAttributedTitle(attrText, for: .normal)
         
-        attrText.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.red, range: NSMakeRange(size, 1))
+        attrText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red, range: NSMakeRange(size, 1))
         
         btn.setAttributedTitle(attrText, for: .normal)
     }

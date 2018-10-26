@@ -29,7 +29,7 @@ struct AlertUtility
         cancelButtonTitle: String? = nil,
         cancelButtonHandler: ((UIAlertAction) -> Void)? = nil,
         viewController: UIViewController) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
         let okButtonAction = UIAlertAction(title: okButtonTitle, style: .default, handler: okButtonHandler)
         alert.addAction(okButtonAction)
         if let buttonTitle = cancelButtonTitle {

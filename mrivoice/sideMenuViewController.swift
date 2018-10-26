@@ -92,12 +92,12 @@ class sideMenuViewController: UIViewController,UITableViewDelegate,UITableViewDa
             break
         default:
             // セルの選択不可にする
-            cell.selectionStyle = UITableViewCellSelectionStyle.none
+            cell.selectionStyle = UITableViewCell.SelectionStyle.none
             cell.sideMenuListImage.image = FontAwesome.phoneImage()
             break
         }
         // セルが選択された時の背景色を消す
-        cell.selectionStyle = UITableViewCellSelectionStyle.none
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none
         return cell
     }
     

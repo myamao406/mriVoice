@@ -61,13 +61,13 @@ class voiceCheckViewController: UIViewController,UINavigationBarDelegate,FilePro
         let session = AVAudioSession.sharedInstance()
         
         // OKボタン
-        okButton.setImage(FontAwesome.checkImage() , for: UIControlState())
+        okButton.setImage(FontAwesome.checkImage() , for: UIControl.State())
         // やり直しボタン
         redoButton.setTitle(NSLocalizedString("retake", comment: ""), for: .normal)
-        redoButton.setImage(FontAwesome.redoImage(), for: UIControlState())
+        redoButton.setImage(FontAwesome.redoImage(), for: UIControl.State())
         
         // プレイ・ポーズボタン
-        playButton.setImage(FontAwesome.pauseImage2(), for: UIControlState())
+        playButton.setImage(FontAwesome.pauseImage2(), for: UIControl.State())
         isPlaying = true
         
         let idx = asbds.index(where: {$0.projectNo == SELECT_PROJECT_NO})
@@ -100,7 +100,7 @@ class voiceCheckViewController: UIViewController,UINavigationBarDelegate,FilePro
         // Override the output to the speaker
         //
         do {
-            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
+            try session.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
         } catch let error as NSError {
             print("Error overriding output to the speaker: \(error.localizedDescription)")
         }
@@ -215,7 +215,7 @@ class voiceCheckViewController: UIViewController,UINavigationBarDelegate,FilePro
             userInfo: nil,
             repeats: true
         )
-        RunLoop.main.add(timer!, forMode: RunLoopMode.commonModes)
+        RunLoop.main.add(timer!, forMode: RunLoop.Mode.common)
     }
     
     @objc func updateMessage() {
@@ -231,7 +231,7 @@ class voiceCheckViewController: UIViewController,UINavigationBarDelegate,FilePro
             }, delay: 0.8)
             self.isPlaying = false
             // プレイ・ポーズボタン
-            playButton.setImage(FontAwesome.playImage(), for: UIControlState())
+            playButton.setImage(FontAwesome.playImage(), for: UIControl.State())
             v = 0.0
             return
         }
@@ -419,12 +419,12 @@ class voiceCheckViewController: UIViewController,UINavigationBarDelegate,FilePro
         print(#function,isPlaying as Any)
         if isPlaying! {
             // プレイ・ポーズボタン
-            playButton.setImage(FontAwesome.playImage(), for: UIControlState())
+            playButton.setImage(FontAwesome.playImage(), for: UIControl.State())
             player?.pause()
             timer!.invalidate()
         } else {
             // プレイ・ポーズボタン
-            playButton.setImage(FontAwesome.pauseImage2(), for: UIControlState())
+            playButton.setImage(FontAwesome.pauseImage2(), for: UIControl.State())
             player?.play()
             self.startProgressBasic()
         }

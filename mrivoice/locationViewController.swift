@@ -81,7 +81,7 @@ class locationViewController: UIViewController, UITableViewDelegate,UITableViewD
         }
         
         // セルが選択された時の背景色を消す
-        cell.selectionStyle = UITableViewCellSelectionStyle.none
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none
         
         return cell
     }

@@ -393,8 +393,8 @@ public class FileProviderStreamTask: URLSessionTask, StreamDelegate {
         self.inputStream?.close()
         self.outputStream?.close()
         
-        self.inputStream?.remove(from: RunLoop.main, forMode: .defaultRunLoopMode)
-        self.outputStream?.remove(from: RunLoop.main, forMode: .defaultRunLoopMode)
+        self.inputStream?.remove(from: RunLoop.main, forMode: .default)
+        self.outputStream?.remove(from: RunLoop.main, forMode: .default)
         
         self.inputStream = nil
         self.outputStream = nil
@@ -501,8 +501,8 @@ public class FileProviderStreamTask: URLSessionTask, StreamDelegate {
         inputStream.delegate = self
         outputStream.delegate = self
         
-        inputStream.schedule(in: RunLoop.main, forMode: .defaultRunLoopMode)
-        outputStream.schedule(in: RunLoop.main, forMode: .defaultRunLoopMode)
+        inputStream.schedule(in: RunLoop.main, forMode: .default)
+        outputStream.schedule(in: RunLoop.main, forMode: .default)
         
         inputStream.open()
         outputStream.open()

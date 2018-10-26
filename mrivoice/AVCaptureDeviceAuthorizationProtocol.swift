@@ -35,8 +35,8 @@ extension AVCaptureDeviceAuthorizationProtocol {
     
     private func showCamereAlert(viewController: UIViewController) {
         let okButtonHandler = { (action: UIAlertAction) -> () in
-            if let url = URL(string: UIApplicationOpenSettingsURLString) {
-                UIApplication.shared.open(url, options: [:], completionHandler:  { result in
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler:  { result in
                     print(result)
                 })
             }
@@ -51,4 +51,9 @@ extension AVCaptureDeviceAuthorizationProtocol {
             cancelButtonHandler: nil,
             viewController: viewController)
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

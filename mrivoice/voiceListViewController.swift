@@ -67,7 +67,7 @@ class voiceListViewController: UIViewController,UITableViewDelegate,UITableViewD
         self.logoImageView.center = self.view.center
         //logo設定
         self.logoImageView.image = UIImage(named: "iTunesArtwork")
-        self.logoImageView.contentMode = UIViewContentMode.scaleAspectFit
+        self.logoImageView.contentMode = UIView.ContentMode.scaleAspectFit
         self.logoImageView.backgroundColor = UIColor.white
 
         //viewに追加
@@ -86,7 +86,7 @@ class voiceListViewController: UIViewController,UITableViewDelegate,UITableViewD
         tableViewMain.register(UINib(nibName: "voiceListHeaderTableViewCell", bundle: nil), forCellReuseIdentifier: "voiceListHeaderCell")
         
         self.refreshControl = UIRefreshControl()
-        self.refreshControl.addTarget(self, action: #selector(refresh), for: UIControlEvents.valueChanged)
+        self.refreshControl.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
         self.tableViewMain.addSubview(refreshControl)
     }
 
@@ -679,7 +679,7 @@ class voiceListViewController: UIViewController,UITableViewDelegate,UITableViewD
         //少し縮小するアニメーション
         UIView.animate(withDuration: 0.3,
                        delay: 1.0,
-                       options: UIViewAnimationOptions.curveEaseOut,
+                       options: UIView.AnimationOptions.curveEaseOut,
                        animations: { () in
                         self.logoImageView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         }, completion: { (Bool) in
@@ -689,7 +689,7 @@ class voiceListViewController: UIViewController,UITableViewDelegate,UITableViewD
         //拡大させて、消えるアニメーション
         UIView.animate(withDuration: 0.2,
                        delay: 1.3,
-                       options: UIViewAnimationOptions.curveEaseOut,
+                       options: UIView.AnimationOptions.curveEaseOut,
                        animations: { () in
                         self.logoImageView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
                         self.logoImageView.alpha = 0
